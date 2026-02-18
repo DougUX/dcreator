@@ -29,12 +29,14 @@ export default function MobileMenu({
   ,
   activeHref,
   locale,
-  onLocaleChange
+  onLocaleChange,
+  onNavigate
 }: {
   nav: { label: string; href: string }[];
   activeHref?: string;
   locale: Locale;
   onLocaleChange: (next: Locale) => void;
+  onNavigate?: (href: string) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [localeOpen, setLocaleOpen] = useState(false);
@@ -164,6 +166,7 @@ export default function MobileMenu({
                         e.preventDefault();
                         scrollToHash(item.href);
                       }
+                      onNavigate?.(item.href);
                       setOpen(false);
                     }}
                     aria-current={activeHref === item.href ? "page" : undefined}
@@ -178,7 +181,7 @@ export default function MobileMenu({
                       <span
                         aria-hidden="true"
                         className={[
-                          "mt-[2px] h-1 w-1 rounded-full bg-current",
+                          "mt-[2px] h-1 w-1 rounded-full bg-gradient-to-r from-red-500 via-green-500 to-blue-500",
                           activeHref === item.href ? "opacity-100" : "opacity-0",
                           "transition-opacity duration-200"
                         ].join(" ")}

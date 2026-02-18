@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Red_Hat_Display } from "next/font/google";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "./ThemeToggle";
@@ -37,14 +37,17 @@ export default function Header() {
   const [activeHref, setActiveHref] = useState("#top");
   const [localeOpen, setLocaleOpen] = useState(false);
 
-  const nav = [
-    { label: t("nav.home"), href: "#top" },
-    { label: t("nav.about"), href: "#about" },
-    { label: t("nav.why"), href: "#why" },
-    { label: t("nav.services"), href: "#services" },
-    { label: t("nav.work"), href: "#work" },
-    { label: t("nav.contact"), href: "#contact" }
-  ];
+  const nav = useMemo(
+    () => [
+      { label: t("nav.home"), href: "#top" },
+      { label: t("nav.about"), href: "#about" },
+      { label: t("nav.why"), href: "#why" },
+      { label: t("nav.services"), href: "#services" },
+      { label: t("nav.work"), href: "#work" },
+      { label: t("nav.contact"), href: "#contact" }
+    ],
+    [t]
+  );
 
   const onLocaleChange = (next: Locale) => {
     const hash = typeof window !== "undefined" ? window.location.hash : "";
@@ -93,7 +96,7 @@ export default function Header() {
 
     items.forEach((x) => io.observe(x.el));
     return () => io.disconnect();
-  }, []);
+  }, [nav]);
 
   return (
     <header
@@ -132,6 +135,7 @@ export default function Header() {
                   if (item.href.startsWith("#")) {
                     e.preventDefault();
                     scrollToHash(item.href);
+                    setActiveHref(item.href);
                   }
                 }}
                 aria-current={activeHref === item.href ? "page" : undefined}
@@ -145,7 +149,7 @@ export default function Header() {
                 <span
                   aria-hidden="true"
                   className={[
-                    "mt-[2px] h-1 w-1 rounded-full bg-current",
+                    "mt-[2px] h-1 w-1 rounded-full bg-gradient-to-r from-red-500 via-green-500 to-blue-500",
                     activeHref === item.href ? "opacity-100" : "opacity-0",
                     "transition-opacity duration-200"
                   ].join(" ")}
@@ -203,6 +207,7 @@ export default function Header() {
               activeHref={activeHref}
               locale={locale}
               onLocaleChange={onLocaleChange}
+              onNavigate={(href) => setActiveHref(href)}
             />
           </div>
         </div>
