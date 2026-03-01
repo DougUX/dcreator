@@ -7,11 +7,75 @@ import { whyMeTimelineSteps } from "@/lib/timelineData";
 import TimelineCard from "@/components/TimelineCard";
 import EnergyLineScene from "@/components/webgl/EnergyLineScene";
 
+function TypewriterText({ text, delay = 0, speed = 50, className = "", cursor = true, hideCursorOnComplete = false, onComplete }: { text: string, delay?: number, speed?: number, className?: string, cursor?: boolean, hideCursorOnComplete?: boolean, onComplete?: () => void }) {
+  const [charCount, setCharCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(delay === 0);
+
+  useEffect(() => {
+    setCharCount(0);
+    setHasStarted(false);
+    let count = 0;
+    let timeout: NodeJS.Timeout;
+
+    const startTyping = () => {
+      setHasStarted(true);
+      const typeNextChar = () => {
+        count++;
+        setCharCount(count);
+        if (count < text.length) {
+          const varyingSpeed = speed * (0.3 + Math.random() * 1.5);
+          timeout = setTimeout(typeNextChar, varyingSpeed);
+        } else if (count === text.length) {
+          onComplete?.();
+        }
+      };
+      typeNextChar();
+    };
+
+    if (delay > 0) {
+      timeout = setTimeout(startTyping, delay);
+    } else {
+      timeout = setTimeout(startTyping, 50);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [text, delay, speed]);
+
+  const isComplete = charCount >= text.length;
+  const showCursor = cursor && (!hideCursorOnComplete || !isComplete);
+
+  return (
+    <span className={className}>
+      {showCursor && hasStarted && charCount === 0 && (
+        <span
+          className={`inline-block w-[0.05em] h-[1em] bg-white -mr-[4px] align-middle translate-y-[-0.08em] animate-[pulse_1s_step-end_infinite]`}
+          style={{ WebkitBackgroundClip: 'initial', WebkitTextFillColor: 'initial', backgroundClip: 'initial' }}
+        />
+      )}
+      {text.split('').map((char, index) => {
+        const isTyped = index < charCount;
+        return (
+          <span key={index} className={`${isTyped ? "opacity-100" : "opacity-0"}`}>
+            {char}
+            {showCursor && index === charCount - 1 && (
+              <span
+                className={`inline-block w-[0.05em] h-[1em] bg-white ml-[2px] -mr-[6px] align-middle translate-y-[0.02em] ${isComplete ? 'animate-[pulse_1s_step-end_infinite]' : ''}`}
+                style={{ WebkitBackgroundClip: 'initial', WebkitTextFillColor: 'initial', backgroundClip: 'initial' }}
+              />
+            )}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
 export default function WhyMeWebGLTimeline() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const progressRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const registeredRef = useRef(false);
+  const [isFirstLineComplete, setIsFirstLineComplete] = useState(false);
 
   const reducedMotion = useMemo(() => {
     if (typeof window === "undefined") return false;
@@ -63,17 +127,6 @@ export default function WhyMeWebGLTimeline() {
       cards.forEach((el: HTMLElement) => {
         const i = Number(el.dataset.index ?? "0");
         gsap.set(el, { transformPerspective: 900, transformOrigin: "50% 50%" });
-        gsap.to(el, {
-          scrollTrigger: {
-            trigger: el,
-            start: "top 82%",
-            end: "top 50%",
-            scrub: true
-          },
-          rotateX: 0,
-          rotateY: 0,
-          z: 0
-        });
 
         gsap.fromTo(
           el,
@@ -116,7 +169,13 @@ export default function WhyMeWebGLTimeline() {
         whyMeTimelineSteps.length - 1,
         Math.max(0, Math.floor(p * whyMeTimelineSteps.length))
       );
-      setActiveIndex((prev) => (prev === idx ? prev : idx));
+
+      setActiveIndex((prev) => {
+        if (prev !== idx && idx !== whyMeTimelineSteps.length - 1) {
+          setIsFirstLineComplete(false);
+        }
+        return idx;
+      });
     };
 
     calc();
@@ -164,7 +223,7 @@ export default function WhyMeWebGLTimeline() {
             <div className="text-xs font-medium tracking-[0.22em] uppercase text-[rgba(var(--fg),0.55)]">
               Why me
             </div>
-            <h2 className="rgb-heading mt-3 whitespace-nowrap text-3xl font-semibold tracking-tight sm:text-4xl">
+            <h2 className="heading-strategy mt-3 whitespace-nowrap sm:">
               A process built for premium outcomes
             </h2>
             <div className="mt-4 max-w-2xl text-sm leading-relaxed text-[rgba(var(--fg),0.55)]">
@@ -247,16 +306,23 @@ export default function WhyMeWebGLTimeline() {
             })}
           </div>
 
-          <div className="relative z-20 mt-20 flex justify-center">
-            <div className="max-w-2xl text-center">
-              <div className="rounded-3xl border border-[rgba(var(--border),0.9)] bg-[rgb(var(--card))] px-8 py-10 shadow-[0_30px_120px_rgba(0,0,0,0.18)] dark:shadow-[0_30px_120px_rgba(0,0,0,0.55)]">
+          <div className="relative z-20 mt-20 flex justify-center w-full">
+            <div className="w-full max-w-6xl xl:max-w-[90vw] text-center px-4">
+              <div className="rounded-3xl border border-[rgba(var(--border),0.9)] bg-[rgb(var(--card))] px-8 md:px-12 py-10 shadow-[0_30px_120px_rgba(0,0,0,0.18)] dark:shadow-[0_30px_120px_rgba(0,0,0,0.55)] w-full">
                 <div className="text-[13px] uppercase tracking-[0.22em] text-[rgba(var(--fg),0.55)]">
                   Final note
                 </div>
-                <div className="mt-5 text-2xl font-semibold tracking-tight sm:text-3xl">
-                  You don’t hire me to design something.
-                  <br />
-                  You hire me to transform vision into reality.
+                <div className="mt-6 mb-4 text-xl md:text-2xl lg:text-3xl font-light text-[rgba(var(--fg),0.7)] min-h-[40px]">
+                  {activeIndex === whyMeTimelineSteps.length - 1 ? (
+                    <TypewriterText text="You don't hire me to design something random." delay={300} speed={70} hideCursorOnComplete={true} onComplete={() => setIsFirstLineComplete(true)} />
+                  ) : (
+                    <span className="opacity-0">You don't hire me to design something random.</span>
+                  )}
+                </div>
+                <div className="text-[7vw] sm:text-[52px] lg:text-[72px] xl:text-[84px] leading-[1.05] font-[700] tracking-[-0.01em] text-[rgb(var(--fg))] min-h-[100px] md:min-h-[120px]">
+                  {activeIndex === whyMeTimelineSteps.length - 1 && isFirstLineComplete && (
+                    <TypewriterText text="You hire me to transform vision into reality." delay={400} speed={85} />
+                  )}
                 </div>
                 <div className="mt-6 h-px w-full bg-[rgba(var(--fg),0.12)]" />
               </div>

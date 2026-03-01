@@ -1,6 +1,6 @@
-export type Locale = "en" | "fr" | "ar";
+export type Locale = "en" | "fr" | "ar" | "it";
 
-export const locales: Locale[] = ["en", "fr", "ar"];
+export const locales: Locale[] = ["en", "fr", "ar", "it"];
 
 export function isLocale(value: string): value is Locale {
   return (locales as string[]).includes(value);
@@ -13,7 +13,8 @@ const messages: Record<Locale, Messages> = {
     "nav.home": "Home",
     "nav.about": "About Me",
     "nav.why": "Why Me",
-    "nav.services": "Service",
+    "nav.expertise": "Expertise",
+    "nav.services": "What I Build",
     "nav.work": "Work",
     "nav.contact": "Contact",
 
@@ -170,6 +171,7 @@ const messages: Record<Locale, Messages> = {
     "nav.home": "Accueil",
     "nav.about": "À propos",
     "nav.why": "Pourquoi moi",
+    "nav.expertise": "Expertise",
     "nav.services": "Services",
     "nav.work": "Réalisations",
     "nav.contact": "Contact",
@@ -327,6 +329,7 @@ const messages: Record<Locale, Messages> = {
     "nav.home": "الرئيسية",
     "nav.about": "نبذة عني",
     "nav.why": "لماذا أنا",
+    "nav.expertise": "الخبرات",
     "nav.services": "الخدمات",
     "nav.work": "الأعمال",
     "nav.contact": "تواصل",
@@ -479,6 +482,155 @@ const messages: Record<Locale, Messages> = {
     "contact.office": "المكتب",
 
     "footer.rights": "جميع الحقوق محفوظة."
+  },
+  it: {
+    "nav.home": "Home",
+    "nav.about": "Chi Sono",
+    "nav.why": "Perché Io",
+    "nav.expertise": "Competenze",
+    "nav.services": "Servizi",
+    "nav.work": "Lavori",
+    "nav.contact": "Contatti",
+
+    "header.letsTalk": "Parliamo",
+
+    "menu.open": "Apri il menu",
+    "menu.close": "Chiudi il menu",
+    "menu.closeButton": "Chiudi",
+
+    "hero.h1.l1": "DESIGN",
+    "hero.h1.l2": "INTELLIGENTE",
+    "hero.h1.l3": "DOVE LA CREATIVITÀ",
+    "hero.h1.l4": "INCONTRA L'IA ✦",
+    "hero.cta.work": "Vedi Lavori",
+    "hero.cta.talk": "Parliamo",
+    "hero.blurb1": "Designer pluripremiato di Prodotti di Lusso, Brand e IA basato nel Regno Unito.",
+    "hero.blurb2": "Progetto prodotti intelligenti per schermi e oggetti fisici — unendo creatività, logica ingegneristica e pensiero guidato dall'IA.",
+
+    "about.title": "Chi Sono",
+    "about.intro.name": "Mi chiamo Douglas Herbert",
+    "about.intro.p1": "Sono un Product Designer digitale e fisico pluripremiato basato nel Regno Unito, con oltre 25 anni di esperienza nel settore del design.",
+    "about.intro.p2": "Nel corso della mia carriera, ho lavorato in un ampio spettro di discipline, dalla moda ai sistemi complessi, ponendo sempre al centro l'estetica e la funzione.",
+    "about.intro.p3": "Ho progettato prodotti presenti in tutto il mondo, costruendo anche piattaforme SaaS sofisticate per l'aviazione, la nautica, le telecomunicazioni e l'IT.",
+    "about.intro.p4": "Il mio viaggio è stato plasmato da opportunità e sfide continue.",
+    "about.intro.p5": "Oggi lavoro all'intersezione tra creatività e intelligenza.",
+    "about.more": "Vedi di più",
+    "about.less": "Vedi di meno",
+    "about.cta": "Contattami",
+    "about.more.p1": "La mia filosofia è semplice.",
+    "about.more.p2": "Se ti fidi di me, ci metto l'anima, e lo vedrai riflesso nel prodotto.",
+    "about.more.p3": "Per me, il design è più della semplice esecuzione. È responsabilità e attenzione ai dettagli.",
+    "about.more.p4": "Non progetto semplicemente prodotti. Progetto con impegno, intelligenza e scopo.",
+
+    "services.kicker": "Servizi",
+    "services.title": "Progettato con Anima. Alimentato dall'Intelligenza.",
+    "services.sub": "Non mi limito a progettare prodotti. Progetto chiarezza, sistemi e impatto.",
+
+    "services.items.digital-product-design.title": "Design di Prodotti Digitali",
+    "services.items.digital-product-design.caption": "Pensiero enterprise. Esecuzione human-centred.",
+    "services.items.digital-product-design.description": "Progetto prodotti digitali complessi che sembrano semplici. Dalle piattaforme IA-native ai SaaS.",
+    "services.items.digital-product-design.bullets.0": "Strategia UX & architettura di prodotto",
+    "services.items.digital-product-design.bullets.1": "Design systems (scalabili e token-driven)",
+    "services.items.digital-product-design.bullets.2": "Interfacce integrate con l'IA",
+    "services.items.digital-product-design.bullets.3": "Web & mobile product design",
+    "services.items.digital-product-design.bullets.4": "Esperienze cross-platform",
+    "services.items.digital-product-design.bullets.5": "Prototipazione rapida & validazione",
+
+    "services.items.physical-luxury-product-design.title": "Design di Prodotti di Lusso Fisici",
+    "services.items.physical-luxury-product-design.caption": "Dove l'estetica incontra la precisione.",
+    "services.items.physical-luxury-product-design.description": "Il lusso non è decorazione. È disciplina.",
+    "services.items.physical-luxury-product-design.bullets.0": "Intelligenza dei materiali & finiture",
+    "services.items.physical-luxury-product-design.bullets.1": "Proporzioni & forma",
+    "services.items.physical-luxury-product-design.bullets.2": "Sistemi di packaging e unboxing",
+    "services.items.physical-luxury-product-design.bullets.3": "Dettagli pronti per la produzione",
+    "services.items.physical-luxury-product-design.bullets.4": "Linguaggio visivo premium",
+
+    "services.items.ai-product-strategy.title": "Strategia di Prodotti IA",
+    "services.items.ai-product-strategy.caption": "Progettare per l'intelligenza.",
+    "services.items.ai-product-strategy.description": "L'IA non è una feature. È un livello comportamentale.",
+    "services.items.ai-product-strategy.bullets.0": "Architettura UX conversazionale",
+    "services.items.ai-product-strategy.bullets.1": "Integrazione workflow IA",
+    "services.items.ai-product-strategy.bullets.2": "Sistemi di personalizzazione",
+    "services.items.ai-product-strategy.bullets.3": "Logica di automazione",
+    "services.items.ai-product-strategy.bullets.4": "Modelli di interazione Uomo-IA",
+
+    "services.items.visiontyping.title": "Visiontyping™",
+    "services.items.visiontyping.caption": "Dall'idea alla realtà visiva — velocemente.",
+    "services.items.visiontyping.description": "Trasforma strategie e concetti in un linguaggio visivo premium in pochi giorni.",
+    "services.items.visiontyping.bullets.0": "Prototipazione rapida del brand",
+    "services.items.visiontyping.bullets.1": "Visual pronti per i pitch",
+    "services.items.visiontyping.bullets.2": "Direzione d'identità",
+    "services.items.visiontyping.bullets.3": "Prototipazione future-state",
+    "services.items.visiontyping.bullets.4": "Articolazione del tono del brand",
+
+    "services.items.ux-surgery.title": "UX Surgery™",
+    "services.items.ux-surgery.caption": "Intervento di precisione. Miglioramento misurato.",
+    "services.items.ux-surgery.description": "Audito e rimetto a punto l'UX esistente per chiarezza, conversione e fiducia.",
+    "services.items.ux-surgery.bullets.0": "Audit UX & diagnostica",
+    "services.items.ux-surgery.bullets.1": "Ottimizzazione dei flussi",
+    "services.items.ux-surgery.bullets.2": "Upgrade di fiducia & credibilità",
+    "services.items.ux-surgery.bullets.3": "Riparazione del design system",
+    "services.items.ux-surgery.bullets.4": "Ottimizzazione conversioni",
+
+    "services.items.design-systems.title": "Design Systems",
+    "services.items.design-systems.caption": "Basati sui token. Guidati dai componenti.",
+    "services.items.design-systems.description": "Creo design systems scalabili che unificano i team.",
+    "services.items.design-systems.bullets.0": "Architettura dei token",
+    "services.items.design-systems.bullets.1": "Librerie di componenti",
+    "services.items.design-systems.bullets.2": "Documentazione & governance",
+    "services.items.design-systems.bullets.3": "Armonizzazione multi-brand",
+    "services.items.design-systems.bullets.4": "Allineamento post-acquisizione",
+
+    "services.items.ux-leadership.title": "Leadership UX",
+    "services.items.ux-leadership.caption": "Pensiero strategico. Consegna pratica.",
+    "services.items.ux-leadership.description": "Leadership senior di product design.",
+    "services.items.ux-leadership.bullets.0": "Design direction",
+    "services.items.ux-leadership.bullets.1": "Supporto scalabilità del team",
+    "services.items.ux-leadership.bullets.2": "Facilitazione workshop",
+    "services.items.ux-leadership.bullets.3": "Mentoring & coaching",
+    "services.items.ux-leadership.bullets.4": "Leadership di consegna",
+
+    "services.items.brand-direction.title": "Brand Direction",
+    "services.items.brand-direction.caption": "Eleganza con intelligenza.",
+    "services.items.brand-direction.description": "Aiuto i marchi a definire la loro identità visiva.",
+    "services.items.brand-direction.bullets.0": "Sistemi di identità del brand",
+    "services.items.brand-direction.bullets.1": "Direzione artistica editoriale",
+    "services.items.brand-direction.bullets.2": "Sistemi di design visivo",
+    "services.items.brand-direction.bullets.3": "Direzione visiva di alto livello",
+    "services.items.brand-direction.bullets.4": "Ecosistemi di brand IA",
+
+    "services.items.transformation-packages.title": "Pacchetti di Trasformazione",
+    "services.items.transformation-packages.caption": "Trasformazione, senza drammi.",
+    "services.items.transformation-packages.description": "Un ingaggio strategico per posizionare il tuo prodotto.",
+    "services.items.transformation-packages.bullets.0": "Strategia + UX + design",
+    "services.items.transformation-packages.bullets.1": "Sistema pronto per roadmap",
+    "services.items.transformation-packages.bullets.2": "Allineamento Brand + Prodotto",
+    "services.items.transformation-packages.bullets.3": "Semplificazione UX",
+    "services.items.transformation-packages.bullets.4": "Output pronti per roadmap",
+
+    "work.kicker": "Lavori In Evidenza",
+    "work.title": "Eccellenza nel design creativo",
+    "work.viewAll": "Visualizza Tutti i Lavori",
+
+    "stats.title": "Comprovato — Dalla Maestria",
+    "stats.sub": "",
+
+    "clients.kicker": "Clienti",
+    "clients.title": "I brand che abbiamo aiutato",
+    "clients.sub": "Un grande team di creativi con forti capacità.",
+
+    "contact.kicker": "Lavoriamo Insieme",
+    "contact.title": "Se ti fidi di me, ci metto l'anima, e lo vedrai riflesso nel prodotto.",
+    "contact.sub": "Contattami, e insieme creeremo un lavoro che farà la storia.",
+    "contact.email": "Email: hello@d.creator",
+    "contact.book": "Prenota una chiamata",
+    "contact.subscribe": "Iscriviti",
+    "contact.subscribeNote": "Iscrivendoti accetti la nostra Privacy Policy.",
+    "contact.emailPlaceholder": "Indirizzo email",
+    "contact.signup": "Iscriviti",
+    "contact.office": "Ufficio",
+
+    "footer.rights": "Tutti i diritti riservati."
   }
 };
 

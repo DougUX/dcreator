@@ -265,10 +265,10 @@ export default function ServicesSection() {
               <div className="text-xs font-medium tracking-[0.18em] uppercase text-[rgb(var(--muted))]">
                 Services
               </div>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+              <h2 className="heading-strategy mt-3 sm:">
                 Designed with Soul. Powered by Intelligence.
               </h2>
-              <p className="mt-4 text-sm leading-relaxed text-[rgb(var(--muted))]">
+              <p className="mt-4 text-[rgb(var(--muted))]">
                 I don’t just design products. I design clarity, systems, and impact.
               </p>
 

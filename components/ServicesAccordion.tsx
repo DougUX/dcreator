@@ -392,10 +392,10 @@ export default function ServicesAccordion() {
           <div className="text-xs font-medium uppercase tracking-[0.18em] text-[rgb(var(--muted))]">
             {t("services.kicker")}
           </div>
-          <h2 className="rgb-heading mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="heading-strategy mt-3 sm:">
             {t("services.title")}
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-[rgb(var(--muted))]">
+          <p className="mt-4 text-[rgb(var(--muted))]">
             {t("services.sub")}
           </p>
 

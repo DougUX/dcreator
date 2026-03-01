@@ -1,10 +1,12 @@
 export const featuredWork = [
-  { title: "Panda Automap", meta: "Development — 2025", image: "/placeholders/work.svg" },
-  { title: "Saudi Venture Capital", meta: "Graphics — 2025", image: "/work/02.avif" },
-  { title: "Rebrand Lawberry", meta: "Motion, Design — 2025", image: "/work/03.avif" },
+  { title: "Panda Automap", meta: "Development — 2025", image: "/work/01.jpg" },
+  { title: "Saudi Venture Capital", meta: "Graphics — 2025", image: "/work/02.jpg" },
+  { title: "Rebrand Lawberry", meta: "Motion, Design — 2025", image: "/work/03.jpg" },
   { title: "Selicon Cloud Cave", meta: "UI Design — 2025", image: "/work/04.jpg" },
-  { title: "Mountain Upwork", meta: "Branding — 2025", image: "/work/05.jpeg" },
-  { title: "Blacky Motorola", meta: "UI Design — 2025", image: "/work/06.jpg" }
+  { title: "Mountain Upwork", meta: "Branding — 2025", image: "/work/05.jpg" },
+  { title: "Blacky Motorola", meta: "UI Design — 2025", image: "/work/06.jpg" },
+  { title: "BCG", meta: "Client Work — 2025", image: "/portfolio/BCG.png" },
+  { title: "The Spirit of Dubai", meta: "Client Work — 2025", image: "/portfolio/TSODgift.png" }
 ];
 
 export const services = [

@@ -22,10 +22,10 @@ export default function Services() {
               <div className="text-xs font-medium text-[rgb(var(--muted))]">
                 Complex proficiency
               </div>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+              <h2 className="heading-strategy mt-2 sm:">
                 Services built for modern teams
               </h2>
-              <p className="mt-4 text-sm leading-relaxed text-[rgb(var(--muted))]">
+              <p className="mt-4 text-[rgb(var(--muted))]">
                 A flexible set of capabilities across branding, product design,
                 development and digital marketing.
               </p>
@@ -69,7 +69,7 @@ export default function Services() {
                         </div>
                         <a
                           href="#"
-                          className="text-sm text-[rgb(var(--muted))] hover:text-[rgb(var(--fg))] transition"
+                          className="text-[rgb(var(--muted))] hover:text-[rgb(var(--fg))] transition"
                         >
                           Details →
                         </a>

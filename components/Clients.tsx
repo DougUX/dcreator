@@ -9,7 +9,7 @@ import { useI18n } from "@/components/I18nProvider";
 export default function Clients() {
   const { t } = useI18n();
   return (
-    <section className="py-12 sm:py-16">
+    <section id="brands" data-cursor-text="Brands I've worked" className="py-12 sm:py-16">
       <Container>
         <Reveal stagger={0.08}>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -17,7 +17,7 @@ export default function Clients() {
               <div className="text-xs font-medium text-[rgb(var(--muted))]">
                 {t("clients.kicker")}
               </div>
-              <h2 className="rgb-heading mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+              <h2 className="heading-strategy mt-2 sm:">
                 {t("clients.title")}
               </h2>
               <div className="mt-4 text-sm text-[rgb(var(--muted))]">

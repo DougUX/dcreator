@@ -23,11 +23,11 @@ export default function Stats({
         <div>
           {showTitle ? (
             <div className="flex flex-col gap-3">
-              <h2 className="rgb-heading text-2xl font-semibold tracking-tight sm:text-3xl">
+              <h2 className="heading-strategy sm:">
                 {t("stats.title")}
               </h2>
               {sub?.trim() ? (
-                <p className="max-w-xl text-sm leading-relaxed text-[rgb(var(--muted))]">{sub}</p>
+                <p className="max-w-xl text-[rgb(var(--muted))]">{sub}</p>
               ) : null}
             </div>
           ) : null}
@@ -56,11 +56,11 @@ export default function Stats({
         <div className="rounded-3xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-6 sm:p-10">
           <Reveal stagger={0.1}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <h2 className="rgb-heading text-2xl font-semibold tracking-tight sm:text-3xl">
+              <h2 className="heading-strategy sm:">
                 {t("stats.title")}
               </h2>
               {sub?.trim() ? (
-                <p className="max-w-xl text-sm leading-relaxed text-[rgb(var(--muted))]">{sub}</p>
+                <p className="max-w-xl text-[rgb(var(--muted))]">{sub}</p>
               ) : null}
             </div>
 

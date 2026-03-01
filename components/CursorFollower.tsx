@@ -1,24 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Red_Hat_Display } from "next/font/google";
 
-type Pt = { x: number; y: number };
+const logoFont = Red_Hat_Display({ subsets: ["latin"], weight: ["300"], display: "swap" });
 
 export default function CursorFollower() {
-  const [pulsing, setPulsing] = useState(false);
-  const pulseTimeoutRef = useRef<number | null>(null);
-  const dotPosRef = useRef<HTMLDivElement | null>(null);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const ringRef = useRef<HTMLDivElement | null>(null);
   const dotRef = useRef<HTMLDivElement | null>(null);
-  const mainPosRef = useRef<HTMLDivElement | null>(null);
-  const mainBlobRef = useRef<HTMLDivElement | null>(null);
-  const anchorPosRef = useRef<HTMLDivElement | null>(null);
-  const anchorBlobRef = useRef<HTMLDivElement | null>(null);
-  const aboutPosRef = useRef<HTMLDivElement | null>(null);
-  const aboutRingRef = useRef<HTMLDivElement | null>(null);
-  const aboutPtRef = useRef<Pt>({ x: -100, y: -100 });
-  const anchorPtRef = useRef<Pt>({ x: -100, y: -100 });
-  const interactiveRef = useRef(false);
-  const aboutRef = useRef(false);
+  const textRef = useRef<HTMLSpanElement | null>(null);
 
   const isTouch = useMemo(() => {
     if (typeof window === "undefined") return false;
@@ -28,211 +19,142 @@ export default function CursorFollower() {
   useEffect(() => {
     if (isTouch) return;
 
-    document.documentElement.classList.add("cursor-none");
+    const style = document.createElement("style");
+    style.id = "hide-system-cursor";
+    style.textContent = `
+      * { cursor: none !important; }
+    `;
+    document.head.appendChild(style);
 
-    const edgeThreshold = 80;
-    const edgeInset = 10;
-    const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
+    let raf = 0;
+    const pos = { x: -100, y: -100 };
+    const ring = { x: -100, y: -100 };
+    const target = { x: -100, y: -100 };
+    let hover = false;
+    let cursorText = "";
+
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-    const move = (e: PointerEvent) => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+    const findCursorText = (x: number, y: number) => {
+      // Find the element exactly under the cursor
+      const el = document.elementFromPoint(x, y);
+      if (!el) return "";
 
-      const x = e.clientX;
-      const y = e.clientY;
+      // Look for data-cursor-text on this element or its closest parent
+      const parentWithText = el.closest('[data-cursor-text]');
+      if (parentWithText) {
+        return parentWithText.getAttribute('data-cursor-text') || "";
+      }
+      return "";
+    };
 
-      const dLeft = x;
-      const dRight = w - x;
-      const dTop = y;
-      const dBottom = h - y;
-
-      const dEdge = Math.min(dLeft, dRight, dTop, dBottom);
-      const edgeFactor = 1 - clamp(dEdge / edgeThreshold, 0, 1);
-
-      const baseSize = interactiveRef.current ? 22 : 8;
-      const mainSize = baseSize + edgeFactor * 10;
-      const anchorSize = baseSize + edgeFactor * 22;
-
-      const aboutPos = aboutPosRef.current;
-      const aboutRing = aboutRingRef.current;
-      if (aboutPos && aboutRing) {
-        if (aboutRef.current) {
-          aboutPos.style.opacity = "1";
-          const prevAbout = aboutPtRef.current;
-          const nextAboutX = lerp(prevAbout.x, x, 0.22);
-          const nextAboutY = lerp(prevAbout.y, y, 0.22);
-          aboutPtRef.current = { x: nextAboutX, y: nextAboutY };
-          aboutPos.style.left = `${nextAboutX}px`;
-          aboutPos.style.top = `${nextAboutY}px`;
-        } else {
-          aboutPos.style.opacity = "0";
-          aboutPtRef.current = { x, y };
+    const updateTextLabel = () => {
+      const newText = findCursorText(target.x, target.y);
+      if (newText !== cursorText) {
+        cursorText = newText;
+        if (textRef.current) {
+          textRef.current.innerText = cursorText;
+          // Smoothly toggle visibility based on if text exists
+          textRef.current.style.opacity = cursorText ? "1" : "0";
+          textRef.current.style.transform = `translate3d(${pos.x}px, ${pos.y + 24}px, 0) translate(-50%, 0) scale(${cursorText ? 1 : 0.9})`;
         }
       }
-
-      const dotPos = dotPosRef.current;
-      const dot = dotRef.current;
-      if (dotPos && dot) {
-        dotPos.style.left = `${x}px`;
-        dotPos.style.top = `${y}px`;
-        dot.style.width = `${mainSize}px`;
-        dot.style.height = `${mainSize}px`;
-      }
-
-      const mainPos = mainPosRef.current;
-      const mainBlob = mainBlobRef.current;
-      if (mainPos && mainBlob) {
-        mainPos.style.left = `${x}px`;
-        mainPos.style.top = `${y}px`;
-        mainBlob.style.width = `${mainSize}px`;
-        mainBlob.style.height = `${mainSize}px`;
-      }
-
-      const anchorPos = anchorPosRef.current;
-      const anchorBlob = anchorBlobRef.current;
-      if (!anchorPos || !anchorBlob) return;
-
-      if (edgeFactor <= 0.001) {
-        anchorPos.style.opacity = "0";
-        return;
-      }
-
-      anchorPos.style.opacity = "1";
-
-      anchorBlob.style.width = `${anchorSize}px`;
-      anchorBlob.style.height = `${anchorSize}px`;
-
-      const minLR = Math.min(dLeft, dRight);
-      const minTB = Math.min(dTop, dBottom);
-
-      let ax = x;
-      let ay = y;
-      if (minLR < minTB) {
-        ax = dLeft < dRight ? edgeInset : w - edgeInset;
-        ay = y;
-      } else {
-        ax = x;
-        ay = dTop < dBottom ? edgeInset : h - edgeInset;
-      }
-
-      const prev = anchorPtRef.current;
-      const t = 0.18 + edgeFactor * 0.24;
-      const nextAx = lerp(prev.x, ax, t);
-      const nextAy = lerp(prev.y, ay, t);
-      anchorPtRef.current = { x: nextAx, y: nextAy };
-
-      anchorPos.style.left = `${nextAx}px`;
-      anchorPos.style.top = `${nextAy}px`;
-
-      const vx = x - nextAx;
-      const vy = y - nextAy;
-      const vlen = Math.hypot(vx, vy);
-
-      const angle = (Math.atan2(vy, vx) * 180) / Math.PI;
-      const stretch = clamp(vlen / 240, 0, 1);
-      const baseSy = 1 + edgeFactor * 0.35 + stretch * 0.35;
-      const translate = clamp(vlen / 14, 0, 10);
-      const xform = `rotate(${angle}deg) translateX(${translate}px) scaleY(${baseSy})`;
-
-      anchorBlob.style.setProperty("--cursor-xform", xform);
-      anchorBlob.style.transform = xform;
     };
 
-    const down = () => {
-      setPulsing(true);
-      if (pulseTimeoutRef.current) window.clearTimeout(pulseTimeoutRef.current);
-      pulseTimeoutRef.current = window.setTimeout(() => setPulsing(false), 160);
+    const onMove = (e: PointerEvent) => {
+      target.x = e.clientX;
+      target.y = e.clientY;
+      updateTextLabel();
     };
 
-    const over = (e: PointerEvent) => {
+    const onScroll = () => {
+      // Re-evaluate the element under the static cursor when scrolling
+      updateTextLabel();
+    };
+
+    const onOver = (e: PointerEvent) => {
       const t = e.target as Element | null;
       if (!t) return;
-      const cursorEl = t.closest('[data-cursor]') as HTMLElement | null;
-      const cursorMode = cursorEl?.getAttribute("data-cursor") ?? "";
-      aboutRef.current = cursorMode === "about";
-
-      const hit = t.closest('a,button,[role="button"],input,textarea,select,label');
-      interactiveRef.current = Boolean(hit);
+      hover = Boolean(t.closest('a,button,[role="button"],input,textarea,select,label'));
     };
 
-    const out = () => {
-      interactiveRef.current = false;
-      aboutRef.current = false;
+    const onOut = () => {
+      hover = false;
     };
 
-    window.addEventListener("pointermove", move, { passive: true });
-    window.addEventListener("pointerdown", down);
-    window.addEventListener("pointerover", over, { passive: true });
-    window.addEventListener("pointerout", out, { passive: true });
+    const loop = () => {
+      pos.x = target.x;
+      pos.y = target.y;
+      ring.x = lerp(ring.x, target.x, 0.16);
+      ring.y = lerp(ring.y, target.y, 0.16);
+
+      const dot = dotRef.current;
+      const ringEl = ringRef.current;
+      const textEl = textRef.current;
+
+      if (dot) {
+        dot.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`;
+      }
+      if (ringEl) {
+        const s = hover ? 1.25 : 1;
+        ringEl.style.transform = `translate3d(${ring.x}px, ${ring.y}px, 0) translate(-50%, -50%) scale(${s})`;
+      }
+      if (textEl && cursorText) {
+        textEl.style.transform = `translate3d(${pos.x}px, ${pos.y + 24}px, 0) translate(-50%, 0) scale(1)`;
+      }
+
+      raf = window.requestAnimationFrame(loop);
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerover", onOver, { passive: true });
+    window.addEventListener("pointerout", onOut, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    raf = window.requestAnimationFrame(loop);
 
     return () => {
-      document.documentElement.classList.remove("cursor-none");
-      window.removeEventListener("pointermove", move);
-      window.removeEventListener("pointerdown", down);
-      window.removeEventListener("pointerover", over);
-      window.removeEventListener("pointerout", out);
-      if (pulseTimeoutRef.current) window.clearTimeout(pulseTimeoutRef.current);
+      const s = document.getElementById("hide-system-cursor");
+      if (s) s.remove();
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerover", onOver);
+      window.removeEventListener("pointerout", onOut);
+      window.removeEventListener("scroll", onScroll);
+      window.cancelAnimationFrame(raf);
     };
   }, [isTouch]);
 
   if (isTouch) return null;
 
-  const ringShadow =
-    "0 0 0 1px rgb(var(--cursor-ring) / 0.85), 0 0 10px 3px rgb(var(--cursor-ring) / 0.30)";
-
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999]">
+    <div ref={rootRef} data-cursor-follower className="pointer-events-none fixed inset-0 z-[9999]">
       <div
-        ref={aboutPosRef}
-        className="absolute left-0 top-0 z-[2] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-150 mix-blend-difference"
-        style={{ opacity: 0 }}
-      >
-        <div
-          ref={aboutRingRef}
-          className="flex h-24 w-24 items-center justify-center rounded-full border border-white text-[11px] uppercase tracking-[0.24em] text-white"
-          style={{ boxShadow: "0 0 0 1px rgba(255,255,255,0.45), 0 0 24px 10px rgba(255,255,255,0.12)" }}
-        >
-          <span className="translate-x-[0.12em]">ABOUT</span>
-        </div>
-      </div>
-
-      <div className="absolute inset-0 z-0" style={{ filter: "blur(4px) contrast(18)", transform: "translateZ(0)" }}>
-        <div
-          ref={anchorPosRef}
-          className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-150"
-          style={{ opacity: 0 }}
-        >
-          <div ref={anchorBlobRef} className="rounded-full bg-[rgb(var(--cursor))] opacity-90" style={{ boxShadow: ringShadow }} />
-        </div>
-
-        <div ref={mainPosRef} className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2">
-          <div
-            ref={mainBlobRef}
-            className={[
-              "rounded-full bg-[rgb(var(--cursor))] opacity-90",
-              "transition-transform duration-150",
-              "scale-100"
-            ].join(" ")}
-            style={{ boxShadow: ringShadow }}
-          />
-        </div>
-      </div>
-
+        ref={ringRef}
+        className="absolute left-0 top-0 h-10 w-10 rounded-full border border-[rgb(var(--cursor-ring))] mix-blend-difference"
+        style={{
+          opacity: 0.65,
+          boxShadow:
+            "-1.5px 0 0 rgba(255,0,0,0.60), 1.5px 0 0 rgba(0,180,255,0.60), 0 0 12px rgba(255,0,0,0.18), 0 0 12px rgba(0,180,255,0.18), 0 0 22px rgba(255,0,0,0.08), 0 0 22px rgba(0,180,255,0.08), 0 0 40px rgba(255,255,255,0.04)",
+          transform: "translate3d(-100px,-100px,0) translate(-50%,-50%)"
+        }}
+      />
       <div
-        ref={dotPosRef}
-        className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
-      >
-        <div
-          ref={dotRef}
-          className={[
-            "rounded-full bg-[rgb(var(--cursor))] opacity-90",
-            "transition-transform duration-150",
-            pulsing ? "scale-[2.2]" : "scale-100"
-          ].join(" ")}
-          style={{ boxShadow: ringShadow }}
-        />
-      </div>
+        ref={dotRef}
+        className="absolute left-0 top-0 h-2 w-2 rounded-full bg-[rgb(var(--cursor))] mix-blend-difference"
+        style={{ transform: "translate3d(-100px,-100px,0) translate(-50%,-50%)" }}
+      />
+
+      <span
+        ref={textRef}
+        className={[
+          logoFont.className,
+          "absolute left-0 top-0 text-[11px] font-medium uppercase tracking-[0.2em] text-white pointer-events-none drop-shadow-md transition-all duration-300 pointer-events-none whitespace-nowrap mix-blend-difference"
+        ].join(" ")}
+        style={{
+          opacity: 0,
+          transform: "translate3d(-100px,-100px,0) translate(-50%, 0) scale(0.9)",
+          willChange: "transform, opacity"
+        }}
+      ></span>
     </div>
   );
 }

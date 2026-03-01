@@ -15,7 +15,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgb(var(--border))] text-sm hover:bg-[rgb(var(--card))] transition"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-transparent text-sm text-[rgb(var(--muted))] hover:text-[rgb(var(--fg))] hover:opacity-80 active:scale-[0.98] transition focus-visible:outline-none"
       aria-label="Toggle theme"
     >
       {isDark ? (
@@ -25,7 +25,7 @@ export default function ThemeToggle() {
           className="h-5 w-5"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="1.75"
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"
@@ -39,7 +39,7 @@ export default function ThemeToggle() {
           className="h-5 w-5"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="1.75"
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"

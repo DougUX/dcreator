@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import CursorFollower from "@/components/CursorFollower";
 import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
+import PageTransition from "@/components/PageTransition";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -13,7 +14,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <ScrollProgressBar />
         <CursorFollower />
         <WhatsAppFloatingButton />
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
       </SmoothScroll>
     </ThemeProvider>
   );

@@ -120,7 +120,7 @@ export default function Hero() {
           <feDisplacementMap ref={dispRef} in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
-      <div ref={bgRef} className="absolute inset-0 -z-10">
+      <div ref={bgRef} className="absolute inset-0 -z-10 bg-[rgb(var(--bg))]">
         <IntroBackgroundVideo src="/intro.mp4" />
       </div>
       <Container className="relative z-10">
@@ -130,7 +130,7 @@ export default function Hero() {
               <div className="relative">
                 <h1
                   ref={headlineRef}
-                  className="relative z-10 rgb-heading rgb-heading-strong text-[15vw] font-semibold leading-[0.92] tracking-tight will-change-transform sm:text-[96px] lg:text-[110px] xl:text-[128px]"
+                  className="relative z-10 rgb-heading rgb-heading-strong text-[15vw] leading-[0.92] will-change-transform sm:text-[96px] lg:text-[110px] xl:text-[128px]"
                   style={isTouch ? undefined : { filter: "url(#hero-warp)" }}
                 >
                   <span data-hero-line className="block will-change-transform">
@@ -151,7 +151,7 @@ export default function Hero() {
                   <MagneticButton>
                     <a
                       href="#work"
-                      className="inline-flex h-11 items-center justify-center rounded-full bg-[rgb(var(--fg))] px-6 text-[13px] font-medium text-[rgb(var(--bg))] hover:opacity-90 transition"
+                      className="inline-flex h-11 items-center justify-center rounded-full bg-[rgb(var(--fg))] px-6 text-[13px] text-[rgb(var(--bg))] hover:opacity-90 transition"
                     >
                       {t("hero.cta.work")}
                     </a>
@@ -160,7 +160,7 @@ export default function Hero() {
                   <MagneticButton>
                     <a
                       href="#contact"
-                      className="inline-flex h-11 items-center justify-center rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--bg))]/60 px-6 text-[13px] font-medium hover:bg-[rgb(var(--card))] transition backdrop-blur"
+                      className="inline-flex h-11 items-center justify-center rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--bg))]/60 px-6 text-[13px] hover:bg-[rgb(var(--card))] transition backdrop-blur"
                     >
                       {t("hero.cta.talk")}
                     </a>

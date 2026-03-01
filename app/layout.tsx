@@ -1,12 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Cairo, Montez, Space_Grotesk } from "next/font/google";
+import { Cairo, Montez, Manrope } from "next/font/google";
 import { cookies } from "next/headers";
 import { dir, isLocale } from "@/lib/i18n";
 
-const spaceGrotesk = Space_Grotesk({
+const manrope = Manrope({
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-manrope",
+  weight: ["200", "300", "400", "500", "600", "700", "800"]
 });
 
 const montez = Montez({
@@ -40,7 +42,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale} dir={dir(locale)} suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.className} ${montez.variable} ${locale === "ar" ? cairo.className : ""}`}
+        className={`${manrope.className} ${manrope.variable} ${montez.variable} ${locale === "ar" ? cairo.className : ""}`}
         suppressHydrationWarning
       >
         {children}

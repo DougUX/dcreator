@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 function usePrefersReducedMotion() {
@@ -36,6 +36,39 @@ export default function Reveal({
   const reduceMotion = usePrefersReducedMotion();
   const [revealed, setRevealed] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!mounted || reduceMotion) return;
+    if (revealed) return;
+
+    const el = rootRef.current;
+    if (!el) {
+      const t = window.setTimeout(() => setRevealed(true), 350);
+      return () => window.clearTimeout(t);
+    }
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setRevealed(true);
+          obs.disconnect();
+        }
+      },
+      { root: null, threshold: 0.12, rootMargin: "-12% 0px -45% 0px" }
+    );
+    obs.observe(el);
+
+    const fallback = window.setTimeout(() => {
+      setRevealed(true);
+      obs.disconnect();
+    }, 2000);
+
+    return () => {
+      obs.disconnect();
+      window.clearTimeout(fallback);
+    };
+  }, [mounted, reduceMotion, revealed]);
 
   useEffect(() => {
     setMounted(true);
@@ -81,13 +114,12 @@ export default function Reveal({
     return (
       <motion.div
         key={reduceMotion ? "reduce" : "full"}
+        ref={rootRef}
         data-reveal
         style={finalStyle}
         variants={containerVariants}
         initial={revealed ? false : "hidden"}
-        whileInView={revealed ? undefined : "show"}
-        viewport={{ once: true, margin: "-12% 0px -45% 0px" }}
-        onViewportEnter={() => setRevealed(true)}
+        animate={revealed ? "show" : "hidden"}
       >
         {React.Children.map(children, (child, i) => (
           <motion.div
@@ -108,6 +140,7 @@ export default function Reveal({
   return (
     <motion.div
       key={reduceMotion ? "reduce" : "full"}
+      ref={rootRef}
       data-reveal
       style={finalStyle}
       initial={
@@ -119,7 +152,7 @@ export default function Reveal({
               transform: "translate3d(0, 46px, 0) scale(0.965) rotateX(4deg)",
             }
       }
-      whileInView={
+      animate={
         revealed
           ? { opacity: 1, y: 0 }
           : {
@@ -128,9 +161,7 @@ export default function Reveal({
               transform: "translate3d(0, 0px, 0) scale(1) rotateX(0deg)",
             }
       }
-      viewport={{ once: true, margin: "-12% 0px -45% 0px" }}
       transition={{ duration: 1.35, ease: [0.16, 1, 0.3, 1], delay }}
-      onViewportEnter={() => setRevealed(true)}
     >
       {children}
     </motion.div>

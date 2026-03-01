@@ -22,7 +22,7 @@ export default function FeaturedWork() {
               <div className="text-xs font-medium text-[rgb(var(--muted))]">
                 {t("work.kicker")}
               </div>
-              <h2 className="rgb-heading mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+              <h2 className="heading-strategy mt-2 sm:">
                 {t("work.title")}{" "}
                 <span className="text-[rgb(var(--muted))]">(26)</span>
               </h2>
@@ -30,7 +30,7 @@ export default function FeaturedWork() {
 
             <a
               href="#"
-              className="inline-flex w-fit rounded-full border border-[rgb(var(--border))] px-4 py-2 text-sm hover:bg-[rgb(var(--card))] transition"
+              className="inline-flex w-fit rounded-full border border-[rgb(var(--border))] px-4 py-2 hover:bg-[rgb(var(--card))] transition"
             >
               {t("work.viewAll")}
             </a>

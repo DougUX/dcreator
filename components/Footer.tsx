@@ -6,7 +6,7 @@ import { useI18n } from "@/components/I18nProvider";
 export default function Footer() {
   const { t } = useI18n();
   return (
-    <footer className="border-t border-[rgb(var(--border))] py-10">
+    <footer className="border-t border-[rgb(var(--border))] py-6">
       <Container>
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-sm text-[rgb(var(--muted))]">

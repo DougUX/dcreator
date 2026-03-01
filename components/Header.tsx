@@ -14,46 +14,31 @@ import { usePathname, useRouter } from "next/navigation";
 
 const logoFont = Red_Hat_Display({ subsets: ["latin"], weight: ["300"], display: "swap" });
 
-function scrollToHash(href: string) {
-  if (!href.startsWith("#")) return;
-
-  const id = href.slice(1);
-  const target = document.getElementById(id);
-  if (!target) return;
-
-  const lenis = (window as unknown as { __lenis?: { scrollTo: (t: Element, o?: unknown) => void } }).__lenis;
-  if (lenis?.scrollTo) {
-    lenis.scrollTo(target, { offset: -84 });
-  } else {
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-}
-
 export default function Header() {
   const { t, locale } = useI18n();
   const router = useRouter();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [activeHref, setActiveHref] = useState("#top");
   const [localeOpen, setLocaleOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const nav = useMemo(
     () => [
-      { label: t("nav.home"), href: "#top" },
-      { label: t("nav.about"), href: "#about" },
-      { label: t("nav.why"), href: "#why" },
-      { label: t("nav.services"), href: "#services" },
-      { label: t("nav.work"), href: "#work" },
-      { label: t("nav.contact"), href: "#contact" }
+      { label: t("nav.home"), href: `/${locale}` },
+      { label: t("nav.about"), href: `/${locale}/about` },
+      { label: t("nav.why"), href: `/${locale}/why` },
+      { label: t("nav.expertise"), href: `/${locale}/expertise` },
+      { label: t("nav.work"), href: `/${locale}/work` },
+      { label: t("nav.contact"), href: `/${locale}/contact` }
     ],
-    [t]
+    [t, locale]
   );
 
   const onLocaleChange = (next: Locale) => {
-    const hash = typeof window !== "undefined" ? window.location.hash : "";
+    // Basic locale swap on paths
     const parts = pathname.split("/").filter(Boolean);
     if (parts.length > 0) parts[0] = next;
-    const nextPath = `/${parts.join("/")}${hash}`;
+    const nextPath = `/${parts.join("/")}`;
     router.push(nextPath);
   };
 
@@ -64,116 +49,70 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const items = nav
-      .map((n) => ({ href: n.href, el: document.getElementById(n.href.replace(/^#/, "")) }))
-      .filter((x): x is { href: string; el: HTMLElement } => Boolean(x.el));
+  // Determine active route
+  // Default to checking exact match, or treating /:locale exactly like /:locale/
+  const isActive = (href: string) => {
+    if (href === `/${locale}`) {
+      return pathname === `/${locale}` || pathname === `/${locale}/`;
+    }
+    return pathname.startsWith(href);
+  };
 
-    if (items.length === 0) return;
-
-    const setActive = (href: string) => {
-      setActiveHref((prev) => (prev === href ? prev : href));
-    };
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0));
-
-        const top = visible[0];
-        if (!top?.target) return;
-
-        const hit = items.find((x) => x.el === top.target);
-        if (hit) setActive(hit.href);
-      },
-      {
-        root: null,
-        threshold: [0.15, 0.25, 0.35, 0.5, 0.65],
-        rootMargin: "-88px 0px -55% 0px"
-      }
-    );
-
-    items.forEach((x) => io.observe(x.el));
-    return () => io.disconnect();
-  }, [nav]);
+  const isAboutPage = pathname.endsWith("/about");
 
   return (
     <header
       className={[
-        "sticky top-0 z-50 backdrop-blur",
-        scrolled
-          ? "bg-[rgb(var(--bg))]/85 border-b border-[rgb(var(--border))]"
-          : "bg-[rgb(var(--bg))]/60"
+        "fixed top-0 left-0 right-0 transition-all duration-500",
+        menuOpen ? "z-[10000]" : "z-50",
+        !menuOpen && scrolled
+          ? "bg-gradient-to-b from-black/90 via-black/50 to-transparent backdrop-blur-md pb-8 pt-0"
+          : "bg-transparent pointer-events-auto pb-0 pt-0"
       ].join(" ")}
     >
       <Container>
         <div className="flex h-[72px] items-center justify-between">
-          <Link href="#top" className="flex items-center gap-2">
-            <span className="flex items-center text-[rgb(var(--muted))] opacity-90">
+          {/* LOGO */}
+          <Link href={`/${locale}`} className="flex items-center gap-2">
+            <span className="flex items-center text-[rgb(var(--muted))] opacity-90 transition-colors group-hover:text-white">
               <LogoMark size={62} className="shrink-0" />
             </span>
             <span
-              className={[logoFont.className, "text-[20px] font-light leading-none tracking-[0.02em]"].join(" ")}
+              className={[
+                logoFont.className,
+                "text-[20px] font-light leading-none tracking-[0.02em]"
+              ].join(" ")}
             >
               d.Creator
             </span>
           </Link>
 
-          <nav
-            className={[
-              "hidden md:flex items-center gap-8 text-[12px]",
-              "text-[rgb(var(--muted))]",
-              logoFont.className
-            ].join(" ")}
-          >
-            {nav.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  if (item.href.startsWith("#")) {
-                    e.preventDefault();
-                    scrollToHash(item.href);
-                    setActiveHref(item.href);
-                  }
-                }}
-                aria-current={activeHref === item.href ? "page" : undefined}
-                className={[
-                  "group inline-flex items-start gap-2 uppercase tracking-[0.14em]",
-                  "hover:text-[rgb(var(--fg))] transition-colors",
-                  activeHref === item.href ? "text-[rgb(var(--fg))]" : ""
-                ].join(" ")}
-              >
-                {item.label}
-                <span
-                  aria-hidden="true"
-                  className={[
-                    "mt-[2px] h-1 w-1 rounded-full bg-gradient-to-r from-red-500 via-green-500 to-blue-500",
-                    activeHref === item.href ? "opacity-100" : "opacity-0",
-                    "transition-opacity duration-200"
-                  ].join(" ")}
-                />
-              </a>
-            ))}
-          </nav>
-
+          {/* RIGHT SIDE ACTIONS */}
           <div className="flex items-center gap-3">
-            <ThemeToggle />
+            <div className={[
+              "flex items-center gap-3 transition-opacity duration-300",
+              menuOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+            ].join(" ")}>
+              <ThemeToggle />
 
-            <div className="relative hidden sm:inline-flex">
-              <button
-                type="button"
-                aria-label="Language"
-                aria-expanded={localeOpen}
-                onClick={() => setLocaleOpen((v) => !v)}
-                className="inline-flex h-11 items-center justify-center rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--bg))]/60 px-4 text-[12px] uppercase tracking-[0.14em] text-[rgb(var(--muted))] backdrop-blur hover:bg-[rgb(var(--card))] transition"
-              >
-                {locale}
-              </button>
+              <div className="relative hidden sm:inline-flex">
+                <button
+                  type="button"
+                  aria-label="Language"
+                  aria-expanded={localeOpen}
+                  onClick={() => setLocaleOpen((v) => !v)}
+                  className="inline-flex h-9 items-center justify-center rounded-lg border border-[rgb(var(--border))] bg-transparent px-3 text-[12px] uppercase tracking-[0.14em] text-[rgb(var(--muted))] hover:text-[rgb(var(--fg))] hover:opacity-80 active:scale-[0.98] transition focus-visible:outline-none"
+                >
+                  {locale}
+                </button>
 
-              {localeOpen ? (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 min-w-[120px] overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] shadow-[0_30px_120px_rgba(0,0,0,0.18)]">
+                <div
+                  className={[
+                    "absolute right-0 top-[calc(100%+8px)] z-50 min-w-[120px] overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] shadow-[0_30px_120px_rgba(0,0,0,0.18)]",
+                    "transition-all duration-300 origin-top",
+                    localeOpen ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-95 pointer-events-none"
+                  ].join(" ")}
+                >
                   {locales
                     .filter((l) => l !== locale)
                     .map((l) => (
@@ -191,23 +130,26 @@ export default function Header() {
                       </button>
                     ))}
                 </div>
-              ) : null}
+              </div>
+
+              <MagneticButton>
+                <Link
+                  href={`/${locale}/contact`}
+                  className="hidden sm:inline-flex h-9 items-center justify-center rounded-lg bg-[rgb(var(--fg))] px-5 text-[13px] font-medium text-[rgb(var(--bg))] hover:opacity-90 active:scale-[0.98] transition"
+                >
+                  {t("header.letsTalk")}
+                </Link>
+              </MagneticButton>
             </div>
 
-            <MagneticButton>
-              <a
-                href="#contact"
-                className="hidden sm:inline-flex h-11 items-center justify-center rounded-full bg-[rgb(var(--fg))] px-5 text-[13px] font-medium text-[rgb(var(--bg))] hover:opacity-90 transition"
-              >
-                {t("header.letsTalk")}
-              </a>
-            </MagneticButton>
             <MobileMenu
               nav={nav}
-              activeHref={activeHref}
+              activeHref={pathname}
               locale={locale}
               onLocaleChange={onLocaleChange}
-              onNavigate={(href) => setActiveHref(href)}
+              onNavigate={() => { }}
+              open={menuOpen}
+              onOpenChange={setMenuOpen}
             />
           </div>
         </div>
