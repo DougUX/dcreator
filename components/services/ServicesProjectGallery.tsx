@@ -25,7 +25,7 @@ const projects = [
         title: "Luxury Packaging Box",
         subtitle: "A London Luxury Packaging Award Winner",
         tags: ["Luxury Packaging Design", "Gift Box", "Award Winner"],
-        image: "/portfolio/TsodGift.png"
+        image: "/portfolio/TSODgift.png"
     }
 ];
 
