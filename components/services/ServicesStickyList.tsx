@@ -173,39 +173,55 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
     // Dim the title/icon tabs that are stacked
     const headerOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
+    const handleExpand = () => {
+        if (!cardRef.current || !cardRef.current.offsetParent) return;
+        const parent = cardRef.current.offsetParent as HTMLElement;
+        const parentNodeRect = parent.getBoundingClientRect();
+        const parentAbsY = window.scrollY + parentNodeRect.top;
+        const cardOriginY = cardRef.current.offsetTop;
+        const effectiveStickyTop = window.innerWidth < 768 ? 72 : stickyTopPixels;
+        const targetScroll = parentAbsY + cardOriginY - effectiveStickyTop;
+
+        window.scrollTo({
+            top: targetScroll,
+            behavior: "smooth"
+        });
+    };
+
     return (
         <div
             ref={cardRef}
-            className={`flex flex-col md:flex-row items-start justify-between relative pt-0 md:pt-8 pb-24 md:pb-32 border-t border-white/20 bg-black md:sticky shadow-[0_-20px_40px_rgba(0,0,0,0.5)] transform-gpu ${isLast ? 'pb-16' : ''} md:top-[var(--card-top)]`}
+            onClick={handleExpand}
+            className={`group cursor-pointer flex flex-col relative pt-0 md:pt-8 pb-24 md:pb-32 border-t border-white/20 bg-black md:sticky shadow-[0_-20px_40px_rgba(0,0,0,0.5)] transform-gpu ${isLast ? 'pb-16' : ''} md:top-[var(--card-top)]`}
             style={{
                 '--card-top': `${stickyTopPixels}px`,
-                zIndex: i, // Ensure newer cards slide ON TOP of older cards
+                zIndex: i,
             } as any}
         >
-            {/* Left Side: Icon + Text Content */}
-            <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8 w-full md:w-[85%] pr-4 md:pr-8 px-4 md:px-0">
+            <div className="flex flex-col md:grid md:grid-cols-12 items-start w-full px-4 md:px-8">
 
-                {/* Sticky Title Bar - Horizonally aligned on both mobile and desktop so it fits in the stacking sliver! */}
-                <div className="flex flex-row items-center gap-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 -mx-4 px-4 w-[calc(100%+32px)] md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:w-auto border-b border-white/10 md:border-none shadow-xl md:shadow-none">
-                    {/* 1. Icon (Shrinks) */}
-                    <motion.div
-                        className="shrink-0 origin-left"
-                        style={{ scale: contentScale, opacity: headerOpacity }}
-                    >
-                        {service.icon}
-                    </motion.div>
-
-                    {/* Title (Shrinks & Dims) */}
+                {/* 1. Title (Mobile Sticky Bar / Desktop Left Col) */}
+                <div className="md:col-span-4 lg:col-span-5 flex flex-row items-center justify-between w-[calc(100%+32px)] -mx-4 px-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 border-b border-white/10 shadow-xl md:static md:w-full md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:border-none md:shadow-none md:block">
                     <motion.h3
-                        className="rgb-heading text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight whitespace-normal origin-left"
+                        className="rgb-heading text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight whitespace-normal origin-left group-hover:text-white transition-colors"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.title}
                     </motion.h3>
+
+                    {/* Mobile Only: Icon & ID on the right within the sticky bar */}
+                    <div className="flex md:hidden flex-row items-center gap-3">
+                        <motion.div className="shrink-0 scale-75 origin-right">
+                            {service.icon}
+                        </motion.div>
+                        <div className="text-white/40 font-mono text-lg">
+                            {service.id}
+                        </div>
+                    </div>
                 </div>
 
-                {/* 2. Text Configuration */}
-                <div className="flex flex-col justify-start mt-2 md:mt-0">
+                {/* 2. Paragraphs (Desktop Middle Col / Mobile under title) */}
+                <div className="md:col-span-6 lg:col-span-5 flex flex-col justify-start mt-4 md:mt-0 px-0 md:px-0">
 
                     {/* Description (Stays Bright) */}
                     <motion.div
@@ -232,16 +248,23 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
                     </motion.div>
                 </div>
 
+                {/* 3. Icon + ID (Desktop Only Right Col) */}
+                <div className="hidden md:flex md:col-span-2 lg:col-span-2 flex-row justify-end items-start gap-6 origin-top-right">
+                    <motion.div
+                        className="shrink-0 pt-1 origin-right"
+                        style={{ scale: contentScale, opacity: headerOpacity }}
+                    >
+                        {service.icon}
+                    </motion.div>
+                    <motion.div
+                        className="text-white/40 font-mono text-2xl origin-right pt-1"
+                        style={{ scale: contentScale, opacity: headerOpacity }}
+                    >
+                        {service.id}
+                    </motion.div>
+                </div>
+
             </div>
-
-            {/* Right Side: ID Number (Shrinks & Dims) */}
-            <motion.div
-                className="text-white/40 font-mono text-lg md:text-2xl shrink-0 pt-2 text-right origin-top-right pr-4 md:pr-0"
-                style={{ scale: contentScale, opacity: headerOpacity }}
-            >
-                {service.id}
-            </motion.div>
-
         </div>
     );
 }
