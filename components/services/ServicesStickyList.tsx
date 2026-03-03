@@ -7,7 +7,20 @@ const services = [
     {
         id: "01",
         title: "Luxury Perfume Bottle Design",
-        description: "Sculptural bottle concepts developed with structural logic, proportion control and material precision.",
+        description: "More than a bottle — a complete fragrance vision.",
+        text: "I design aesthetic perfume bottles with structural intelligence and production awareness. But the work goes beyond form. I shape the entire product ecosystem.",
+        list: [
+            "Bottle concept and silhouette development",
+            "Cap, collar and spray engineering logic",
+            "Glass thickness, weight balance and proportion control",
+            "Material and finish direction",
+            "Brand naming and positioning",
+            "Visual identity and brand guidelines",
+            "Prototype development (3D print / sample refinement)",
+            "Collaboration with experienced perfumers (40+ years expertise) to shape scent direction if required",
+            "Manufacturer-ready technical drawings and production files"
+        ],
+        footer: "From first sketch to shelf presence — every element is intentional.",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
@@ -17,7 +30,19 @@ const services = [
     {
         id: "02",
         title: "Luxury Box & Packaging Architecture",
-        description: "Rigid box systems, inserts and presentation structures designed for premium unboxing experiences.",
+        description: "Packaging that protects, presents and elevates.",
+        text: "I design rigid box systems and structural packaging that enhance the unboxing experience while remaining production-ready.",
+        list: [
+            "Rigid box structure design",
+            "Internal bottle support systems",
+            "Insert architecture and cushioning logic",
+            "Magnetic closures and hinge mechanisms",
+            "Material selection and finish specification",
+            "Foil, emboss, deboss and print direction",
+            "Limited edition presentation concepts",
+            "Supplier coordination and dieline documentation"
+        ],
+        footer: "The box is not an accessory — it is part of the object.",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
@@ -27,7 +52,17 @@ const services = [
     {
         id: "03",
         title: "Digital Product Design",
-        description: "High-end UX and UI for SaaS platforms, AI systems and enterprise environments.",
+        description: "Prooven experiance with High-performance digital systems.",
+        text: "I design structured UX and refined interfaces for enterprise platforms, SaaS environments and AI-driven products.",
+        list: [
+            "UX strategy and interaction design",
+            "High-fidelity interface systems",
+            "Responsive web and mobile experiences",
+            "Dashboard and data visualisation design",
+            "Accessibility and usability refinement",
+            "Developer-ready design specifications"
+        ],
+        footer: "Designed to scale. Built to perform.",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
@@ -37,7 +72,17 @@ const services = [
     {
         id: "04",
         title: "Product Strategy",
-        description: "Clarity in direction, information architecture and scalable product thinking.",
+        description: "Direction before design.",
+        text: "Clear product thinking that aligns business objectives with user needs and long-term scalability.",
+        list: [
+            "Product positioning and differentiation",
+            "Information architecture",
+            "User journey mapping",
+            "Feature prioritisation",
+            "Cross-functional alignment",
+            "Roadmap contribution"
+        ],
+        footer: "Structure creates confidence.",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
@@ -47,7 +92,16 @@ const services = [
     {
         id: "05",
         title: "Design Systems",
-        description: "Component frameworks and token systems built for multi-product ecosystems.",
+        description: "Consistency at scale.",
+        text: "I architect scalable design systems that support multi-product ecosystems and reduce complexity.",
+        list: [
+            "Component library architecture",
+            "Design tokens and variable systems",
+            "Documentation frameworks",
+            "Governance models",
+            "System migration and consolidation"
+        ],
+        footer: "Built for longevity, not trends.",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75 16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
@@ -57,7 +111,16 @@ const services = [
     {
         id: "06",
         title: "AI Experience Design",
-        description: "Conversational and workflow-driven AI interfaces designed with structure and usability in mind.",
+        description: "Intelligent interaction, made usable.",
+        text: "I design conversational and workflow-driven AI interfaces that feel structured and purposeful.",
+        list: [
+            "Conversational UX frameworks",
+            "Prompt architecture and flow logic",
+            "AI workflow integration",
+            "Human-in-the-loop design",
+            "Intelligent automation interfaces"
+        ],
+        footer: "Clarity in complexity.",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
@@ -67,7 +130,16 @@ const services = [
     {
         id: "07",
         title: "Creative Direction",
-        description: "From early concept to production-ready execution — digital and physical.",
+        description: "From concept to execution.",
+        text: "Strategic oversight combined with hands-on design leadership across digital and physical products.",
+        list: [
+            "Concept development and vision setting",
+            "Brand coherence across touchpoints",
+            "Prototype to production supervision",
+            "Stakeholder communication",
+            "Launch readiness and refinement"
+        ],
+        footer: "Ideas shaped with discipline.",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11.412 15.655 9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457c-.341.362-.5.846-.5 1.343v10.95c0 .333.27.6.6.6h11.894c.498 0 .98-.16 1.343-.5L21 19.894a2.25 2.25 0 0 0 .659-1.591V5.25a2.25 2.25 0 0 0-2.25-2.25H9.75a2.25 2.25 0 0 0-1.293.457Z" />
@@ -138,9 +210,21 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
                         whileInView={{ y: 0, opacity: 1 }}
                         viewport={{ once: true, margin: "-10%" }}
                         transition={{ duration: 0.6 }}
+                        className="text-left mt-2 flex flex-col gap-6"
                     >
-                        <div className="text-lg md:text-xl text-white leading-relaxed font-sans max-w-2xl text-left mt-2">
+                        <div className="text-xl md:text-2xl text-white font-medium max-w-2xl">
                             {service.description}
+                        </div>
+                        <div className="text-lg text-white/80 leading-relaxed font-sans max-w-2xl">
+                            {service.text}
+                        </div>
+                        <ul className="text-white/70 space-y-2 list-disc pl-5 marker:text-white/40 max-w-2xl">
+                            {service.list?.map((item, idx) => (
+                                <li key={idx} className="pl-1 text-base md:text-lg">{item}</li>
+                            ))}
+                        </ul>
+                        <div className="text-white/90 font-medium italic mt-4 max-w-2xl">
+                            {service.footer}
                         </div>
                     </motion.div>
                 </div>
@@ -171,7 +255,7 @@ export default function ServicesStickyList() {
                 */}
                 <div className="sticky top-12 md:top-20 z-50 mb-16 pointer-events-none">
                     <h2 className="rgb-heading text-4xl md:text-6xl font-medium tracking-tight">
-                        What I Do
+                        What I Offer
                     </h2>
                 </div>
 
