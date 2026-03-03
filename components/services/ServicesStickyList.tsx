@@ -173,6 +173,29 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
     // Dim the title/icon tabs that are stacked
     const headerOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
+    const handleExpand = () => {
+        if (!cardRef.current || !cardRef.current.offsetParent) return;
+
+        // Find absolute Y of the parent container
+        const parent = cardRef.current.offsetParent as HTMLElement;
+        const parentNodeRect = parent.getBoundingClientRect();
+        const parentAbsY = window.scrollY + parentNodeRect.top;
+
+        // Find natural offsetTop of the card Relative to its offsetParent
+        const cardOriginY = cardRef.current.offsetTop;
+
+        // Determine what the sticky top is for this current screen size
+        const effectiveStickyTop = window.innerWidth < 768 ? 72 : stickyTopPixels;
+
+        // The scroll position where this card perfectly hits its stick point
+        const targetScroll = parentAbsY + cardOriginY - effectiveStickyTop;
+
+        window.scrollTo({
+            top: targetScroll,
+            behavior: "smooth"
+        });
+    };
+
     return (
         <div
             ref={cardRef}
@@ -183,10 +206,13 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
             } as any}
         >
             {/* Left Side: Icon + Text Content */}
-            <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8 w-full md:w-[85%] pr-4 md:pr-8 px-4 md:px-0">
+            <div className="flex flex-col md:grid md:grid-cols-12 items-start gap-4 md:gap-8 w-full md:w-[85%] pr-4 md:pr-8 px-4 md:px-0">
 
                 {/* Sticky Title Bar - Horizonally aligned on both mobile and desktop so it fits in the stacking sliver! */}
-                <div className="flex flex-row items-center gap-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 -mx-4 px-4 w-[calc(100%+32px)] md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:w-auto border-b border-white/10 md:border-none shadow-xl md:shadow-none">
+                <div
+                    onClick={handleExpand}
+                    className="md:col-span-5 cursor-pointer flex flex-row items-center gap-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 -mx-4 px-4 w-[calc(100%+32px)] md:w-full md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 border-b border-white/10 md:border-none shadow-xl md:shadow-none group"
+                >
                     {/* 1. Icon (Shrinks) */}
                     <motion.div
                         className="shrink-0 origin-left"
@@ -197,7 +223,7 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
 
                     {/* Title (Shrinks & Dims) */}
                     <motion.h3
-                        className="rgb-heading text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight whitespace-normal origin-left"
+                        className="rgb-heading text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight whitespace-normal origin-left group-hover:text-white transition-colors"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.title}
@@ -205,7 +231,7 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
                 </div>
 
                 {/* 2. Text Configuration */}
-                <div className="flex flex-col justify-start mt-2 md:mt-0">
+                <div className="md:col-span-7 flex flex-col justify-start mt-2 md:mt-0">
 
                     {/* Description (Stays Bright) */}
                     <motion.div
