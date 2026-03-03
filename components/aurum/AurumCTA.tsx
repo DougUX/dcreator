@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import AnimatedButton from "@/components/AnimatedButton";
 
 export default function AurumCTA() {
     return (
@@ -28,18 +29,19 @@ export default function AurumCTA() {
                             required
                             className="h-14 flex-1 rounded-full border border-[rgb(var(--aurum-border))] bg-transparent px-6 text-[rgb(var(--aurum-fg))] placeholder:text-[rgb(var(--aurum-fg))]/40 focus:border-[rgb(var(--aurum-accent))] focus:outline-none focus:ring-1 focus:ring-[rgb(var(--aurum-accent))] transition-all"
                         />
-                        <button
+                        <AnimatedButton
                             type="submit"
-                            className="h-14 rounded-full bg-[rgb(var(--aurum-accent))] px-8 uppercase text-[#101010] transition-transform hover:scale-105"
+                            variant="primary"
+                            className="uppercase !text-[#101010] !bg-[rgb(var(--aurum-accent))] group-hover:!bg-white group-hover:!text-black"
                         >
                             Request Access
-                        </button>
+                        </AnimatedButton>
                     </form>
 
-                    <div className="mt-16">
-                        <button className="uppercase text-[rgb(var(--aurum-fg))]/40 transition-colors hover:text-[rgb(var(--aurum-accent))]">
+                    <div className="mt-16 flex justify-center">
+                        <AnimatedButton variant="secondary" className="uppercase">
                             Explore the process
-                        </button>
+                        </AnimatedButton>
                     </div>
                 </motion.div>
             </div>

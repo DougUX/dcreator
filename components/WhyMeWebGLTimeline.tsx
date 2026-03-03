@@ -223,9 +223,9 @@ export default function WhyMeWebGLTimeline() {
             <div className="text-xs font-medium tracking-[0.22em] uppercase text-[rgba(var(--fg),0.55)]">
               Why me
             </div>
-            <h2 className="heading-strategy mt-3 whitespace-nowrap sm:">
+            <h1 className="heading-strategy mt-3 whitespace-nowrap sm: uppercase">
               A process built for premium outcomes
-            </h2>
+            </h1>
             <div className="mt-4 max-w-2xl text-sm leading-relaxed text-[rgba(var(--fg),0.55)]">
               A restrained, end-to-end approach — where strategy, craft, and intelligence move in one line.
             </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import AnimatedButton from "@/components/AnimatedButton";
 import { useScroll, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion";
 
 // Configuration for the image sequence
@@ -138,19 +139,19 @@ export default function AurumHero() {
 
         {/* Content Overlay */}
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center">
-          <h1 className="mb-6 max-w-4xl text-[rgb(var(--aurum-fg))] sm: md:">
+          <h1 className="rgb-heading-strong text-[12vw] sm:text-[10vw] leading-[0.85] tracking-tighter font-black uppercase inline-block text-white/95">
             Aurum Reserve
           </h1>
           <p className="mb-10 max-w-xl text-[rgb(var(--aurum-fg))]/80 sm:">
             A masterclass in craft. Experience the explosive, uncompromising taste of our small-batch premium reserve.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row">
-            <button className="rounded-full bg-[rgb(var(--aurum-accent))] px-8 py-4 uppercase text-[#101010] transition-transform hover:scale-105">
+            <AnimatedButton variant="primary" className="uppercase !text-[#101010] !bg-[#baccb0] group-hover:!bg-white group-hover:!text-black">
               Discover the Reserve
-            </button>
-            <button className="rounded-full border border-[rgb(var(--aurum-accent))] bg-transparent px-8 py-4 uppercase text-[rgb(var(--aurum-accent))] transition-colors hover:bg-[rgb(var(--aurum-accent))]/10">
+            </AnimatedButton>
+            <AnimatedButton variant="secondary" className="uppercase !border-[#baccb0] !text-[#baccb0]">
               Watch Film
-            </button>
+            </AnimatedButton>
           </div>
         </div>
       </div>

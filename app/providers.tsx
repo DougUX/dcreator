@@ -10,9 +10,9 @@ import PageTransition from "@/components/PageTransition";
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <CursorFollower />
       <SmoothScroll>
         <ScrollProgressBar />
-        <CursorFollower />
         <WhatsAppFloatingButton />
         <PageTransition>
           {children}

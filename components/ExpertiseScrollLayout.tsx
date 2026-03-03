@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Red_Hat_Display } from "next/font/google";
+import AnimatedButton from "@/components/AnimatedButton";
 
 const font = Red_Hat_Display({ subsets: ["latin"], weight: ["300", "400", "600"], display: "swap" });
 
@@ -235,12 +236,14 @@ export default function ExpertiseScrollLayout() {
                                             <Image src="/logo-mark.svg" alt="d.Creator Signature" width={100} height={100} className="w-16 h-16 md:w-20 md:h-20 opacity-80 brightness-0 invert" />
                                         </div>
                                         <div className={`mt-10 transition-all duration-1000 delay-[600ms] ease-out transform ${isFinalLineComplete ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                                            <a href="mailto:hello@dcreator.com" className="group relative inline-flex items-center justify-center gap-2 rounded-full border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.05)] px-8 py-4 text-white uppercase backdrop-blur-md transition-all duration-500 hover:border-[rgba(255,255,255,0.4)] hover:bg-[rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                                                <span>Contact me</span>
-                                                <svg className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5v14M19 12l-7 7-7-7" />
-                                                </svg>
-                                            </a>
+                                            <AnimatedButton href="mailto:hello@dcreator.com" variant="secondary" className="uppercase text-sm">
+                                                <span className="flex items-center gap-2">
+                                                    <span>Contact me</span>
+                                                    <svg className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5v14M19 12l-7 7-7-7" />
+                                                    </svg>
+                                                </span>
+                                            </AnimatedButton>
                                         </div>
                                     </div>
                                 </div>

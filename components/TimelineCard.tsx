@@ -74,7 +74,7 @@ export default function TimelineCard({
             <div className="h-[1px] flex-1 bg-[rgba(var(--fg),0.12)]" />
           </div>
 
-          <h3 className="mt-3 text-[18px] text-[rgb(var(--fg))] sm:text-[20px]">
+          <h3 className="mt-3 text-[18px] sm:text-[20px] rgb-heading rgb-heading-strong font-black uppercase whitespace-nowrap tracking-tighter text-[rgb(var(--fg))]">
             {step.title}
           </h3>
           <div className="mt-2 text-[13px] leading-relaxed text-[rgba(var(--fg),0.70)]">

@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Red_Hat_Display } from "next/font/google";
 import LogoMark from "./LogoMark";
-import ThemeToggle from "./ThemeToggle";
+import SpotlightCursor from "./SpotlightCursor";
 import { useI18n } from "@/components/I18nProvider";
 import { locales, type Locale } from "@/lib/i18n";
 
@@ -114,17 +114,38 @@ export default function MobileMenu({
       >
         <span className="sr-only">{open ? t("menu.closeButton") : t("menu.open")}</span>
         <span aria-hidden="true" className="relative block h-[16px] w-[30px] pointer-events-none">
+          {/* Span 1: Continuous (\) */}
           <span
-            className={[
-              "absolute left-0 block h-[1.5px] bg-current transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
-              iconOpen ? "top-[7px] rotate-[30deg] w-[32px] -translate-x-1" : "top-0 rotate-0 w-full translate-x-0"
-            ].join(" ")}
+            className="absolute left-1/2 top-1/2 block h-[2px] bg-current rounded-full transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{
+              width: iconOpen ? "28px" : "30px",
+              transform: iconOpen
+                ? "translate(-50%, -50%) rotate(45deg)"
+                : "translate(-50%, -50%) translateY(-7px) rotate(0deg)"
+            }}
           />
+
+          {/* Span 2: Top-right broken (/) */}
           <span
-            className={[
-              "absolute left-0 block h-[1.5px] bg-current transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
-              iconOpen ? "top-[7px] w-[26px] -rotate-[40deg] translate-x-2 translate-y-2 origin-left" : "top-[14px] w-full rotate-0 translate-x-0 translate-y-0 origin-center"
-            ].join(" ")}
+            className="absolute left-1/2 top-1/2 block h-[2px] bg-current rounded-full transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{
+              width: iconOpen ? "11px" : "30px",
+              transform: iconOpen
+                ? "translate(-50%, -50%) rotate(-45deg) translateX(8.5px)"
+                : "translate(-50%, -50%) translateY(7px) rotate(0deg)"
+            }}
+          />
+
+          {/* Span 3: Bottom-left broken (/) */}
+          <span
+            className="absolute left-1/2 top-1/2 block h-[2px] bg-current rounded-full transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{
+              width: iconOpen ? "11px" : "0px",
+              opacity: iconOpen ? 1 : 0,
+              transform: iconOpen
+                ? "translate(-50%, -50%) rotate(-45deg) translateX(-8.5px)"
+                : "translate(-50%, -50%) translateY(7px) rotate(0deg)"
+            }}
           />
         </span>
       </button>
@@ -174,9 +195,20 @@ export default function MobileMenu({
                   "transform 720ms cubic-bezier(0.16,1,0.3,1), opacity 720ms cubic-bezier(0.16,1,0.3,1)"
               }}
             >
+              <div className="absolute inset-0 z-0 bg-transparent rounded-l-[1.5rem] overflow-hidden">
+                <SpotlightCursor
+                  config={{
+                    spotlightSize: 400,
+                    spotlightIntensity: 0.15,
+                    glowColor: "255, 255, 255"
+                  }}
+                  className="!mix-blend-screen opacity-50"
+                />
+              </div>
+
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/30 dark:from-white/10 dark:to-black/30"
+                className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-white/5 via-transparent to-black/30 dark:from-white/10 dark:to-black/30"
               />
 
               <div className="flex flex-col h-full overflow-y-auto z-10 relative">
@@ -185,11 +217,6 @@ export default function MobileMenu({
                     <span className="flex items-center text-[rgb(var(--muted))] opacity-90">
                       <LogoMark size={70} className="shrink-0" />
                     </span>
-                  </div>
-                  <div className="flex items-center gap-2 md:gap-4 shrink-0">
-                    <ThemeToggle />
-                    {/* Spacer taking up the same 40x40 footprint as the global morphing toggle button */}
-                    <div className="w-10 h-10 shrink-0 pointer-events-none" />
                   </div>
                 </div>
 

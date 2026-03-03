@@ -12,7 +12,8 @@ const clients = [
     "The Spirit of Dubai Perfumes",
     "Nabeel Perfumes",
     "Route Bleue Perfumes",
-    "Chris Adams Perfumes"
+    "Chris Adams Perfumes",
+    "and more..."
 ];
 
 export default function ServicesClientList() {
@@ -38,7 +39,7 @@ export default function ServicesClientList() {
                             transition={{ duration: 0.5, delay: i * 0.05 }}
                             className="group border-b border-white/20 py-8 flex items-center hover:border-white transition-colors duration-300 cursor-default"
                         >
-                            <span className="font-sans font-medium text-3xl md:text-4xl lg:text-5xl group-hover:-translate-x-4 transition-transform duration-300">
+                            <span className="font-sans font-light text-3xl md:text-4xl lg:text-5xl group-hover:-translate-x-4 transition-transform duration-300">
                                 {client}
                             </span>
                         </motion.div>

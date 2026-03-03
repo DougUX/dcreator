@@ -245,6 +245,16 @@ body {
     2px 0 0 rgba(0, 180, 255, 0.82);
 }
 
+.rgb-hover-expand {
+  transition: text-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rgb-hover-expand:hover {
+  text-shadow:
+    -5px 0 0 rgba(255, 0, 0, 0.85),
+    5px 0 0 rgba(0, 180, 255, 0.85) !important;
+}
+
 .rgb-menu {
   text-shadow:
     -1.25px 0 0 rgba(255, 0, 0, 0.50),
@@ -345,15 +355,15 @@ body {
 /* Cursor Loading States */
 @keyframes spin-ring {
   from {
-    transform: translate3d(-50%, -50%, 0) scale(1) rotate(0deg);
+    transform: scale(1) rotate(0deg);
   }
 
   to {
-    transform: translate3d(-50%, -50%, 0) scale(1) rotate(360deg);
+    transform: scale(1) rotate(360deg);
   }
 }
 
-body.is-loading [data-cursor-follower] .rounded-full.border {
+body.is-loading [data-cursor-follower] .cursor-ring-inner {
   /* Override the inline JS transform with our rotating animation */
   animation: spin-ring 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite !important;
   /* Make the ring more visible during load */

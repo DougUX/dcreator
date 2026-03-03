@@ -1,18 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { Red_Hat_Display } from "next/font/google";
+import { Red_Hat_Display, Caveat } from "next/font/google";
 import { useEffect, useMemo, useState } from "react";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
-import ThemeToggle from "./ThemeToggle";
 import MagneticButton from "./MagneticButton";
 import LogoMark from "./LogoMark";
 import { useI18n } from "@/components/I18nProvider";
 import { locales, type Locale } from "@/lib/i18n";
 import { usePathname, useRouter } from "next/navigation";
+import AnimatedButton from "./AnimatedButton";
 
 const logoFont = Red_Hat_Display({ subsets: ["latin"], weight: ["300"], display: "swap" });
+const caveatFont = Caveat({ subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
 
 export default function Header() {
   const { t, locale } = useI18n();
@@ -59,6 +60,7 @@ export default function Header() {
   };
 
   const isAboutPage = pathname.endsWith("/about");
+  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
   return (
     <header
@@ -88,13 +90,11 @@ export default function Header() {
           </Link>
 
           {/* RIGHT SIDE ACTIONS */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-[40px]">
             <div className={[
-              "flex items-center gap-3 transition-opacity duration-300",
+              "flex items-center gap-[40px] transition-opacity duration-300",
               menuOpen ? "opacity-0 pointer-events-none" : "opacity-100"
             ].join(" ")}>
-              <ThemeToggle />
-
               <div className="relative hidden sm:inline-flex">
                 <button
                   type="button"
@@ -132,14 +132,30 @@ export default function Header() {
                 </div>
               </div>
 
-              <MagneticButton>
-                <Link
-                  href={`/${locale}/contact`}
-                  className="hidden sm:inline-flex h-9 items-center justify-center rounded-lg bg-[rgb(var(--fg))] px-5 text-[13px] font-medium text-[rgb(var(--bg))] hover:opacity-90 active:scale-[0.98] transition"
-                >
-                  {t("header.letsTalk")}
-                </Link>
-              </MagneticButton>
+              {!isHomePage && (
+                <div className="relative group flex items-center">
+                  <AnimatedButton
+                    href="#book"
+                    variant="primary"
+                    className="!px-3 !py-1.5 !min-w-[80px] !text-[10px] sm:!px-4 sm:!py-2 sm:!min-w-[100px] sm:!text-xs"
+                  >
+                    {t("header.letsTalk")}
+                  </AnimatedButton>
+
+                  <div
+                    className="hidden sm:flex absolute top-[calc(100%+8px)] right-[50%] w-[320px] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 z-50 items-start justify-end gap-2 pr-6"
+                  >
+                    <div className={`text-white text-[22px] md:text-[26px] transform -rotate-[10deg] mt-10 whitespace-nowrap ${caveatFont.className} leading-none tracking-wide`}>
+                      Book a 15-min call to <br />
+                      <span className="inline-block mt-2">explore your needs.</span>
+                    </div>
+                    <svg width="60" height="80" viewBox="0 0 100 100" className="opacity-90 transform -translate-y-4 flex-shrink-0">
+                      <path d="M10,80 C 40,80 60,60 85,15" stroke="white" fill="transparent" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M70,25 L85,15 L90,30" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                </div>
+              )}
             </div>
 
             <MobileMenu

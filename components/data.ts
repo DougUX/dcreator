@@ -6,7 +6,8 @@ export const featuredWork = [
   { title: "Mountain Upwork", meta: "Branding — 2025", image: "/work/05.jpg" },
   { title: "Blacky Motorola", meta: "UI Design — 2025", image: "/work/06.jpg" },
   { title: "BCG", meta: "Client Work — 2025", image: "/portfolio/BCG.png" },
-  { title: "The Spirit of Dubai", meta: "Client Work — 2025", image: "/portfolio/TSODgift.png" }
+  { title: "Luxury Packaging Design", meta: "London Luxury Packaging Award Winner", image: "/portfolio/tsodgift.mp4" },
+  { title: "Bottle Designer", meta: "one of the Luxury packaging design winner", image: "/portfolio/Meydan.png" }
 ];
 
 export const services = [

@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
+import AnimatedButton from "@/components/AnimatedButton";
 
 const projects = [
     {
@@ -16,16 +16,16 @@ const projects = [
         image: "/portfolio/BCG.png"
     },
     {
-        title: "Yucca Packaging",
-        subtitle: "A Packaging Website with Purpose",
-        tags: ["Brand Design", "UX Design", "UI Design"],
-        image: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=1000&auto=format&fit=crop"
+        title: "Bottle Design",
+        subtitle: "A London Luxury Packaging Award Winner",
+        tags: ["Packaging Design", "Bottle Design", "Award Winner"],
+        image: "/portfolio/Meydan.png"
     },
     {
-        title: "Helpguide",
-        subtitle: "A Digital Revamp for Mental Wellbeing",
-        tags: ["UI Design", "UX Design", "Brand Design", "Design Strategy"],
-        image: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?q=80&w=1000&auto=format&fit=crop"
+        title: "Luxury Packaging Box",
+        subtitle: "A London Luxury Packaging Award Winner",
+        tags: ["Luxury Packaging Design", "Gift Box", "Award Winner"],
+        image: "/portfolio/TsodGift.png"
     }
 ];
 
@@ -67,7 +67,6 @@ export default function ServicesProjectGallery() {
 
             <div className="absolute top-10 w-full px-4 md:px-8 flex justify-between z-10 pointers-event-none mix-blend-difference">
                 <h2 className="heading-strategy uppercase">Selected Work</h2>
-                <span className="font-sans text-2xl">(04)</span>
             </div>
 
             <div ref={scrollRef} className="flex h-full w-max items-center pl-4 md:pl-24 gap-12 pr-32">
@@ -115,10 +114,10 @@ export default function ServicesProjectGallery() {
 
                 {/* Ending Call to Action */}
                 <div className="w-[50vw] md:w-[30vw] h-[70vh] flex flex-col items-center justify-center p-8 text-center ml-12 gap-8">
-                    <h3 className="lg: rgb-heading">Interested in seeing more?</h3>
-                    <Link href="/work" className="px-8 py-4 rounded-full bg-white text-black font-sans font-medium text-lg hover:bg-gray-200 transition-colors duration-300">
+                    <h3 className="text-3xl lg:text-4xl font-light">Interested in seeing more?</h3>
+                    <AnimatedButton href="/work" variant="primary">
                         View All Work
-                    </Link>
+                    </AnimatedButton>
                 </div>
 
             </div>

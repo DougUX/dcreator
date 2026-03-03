@@ -213,12 +213,12 @@ export default function YearStatement() {
 
                       <div className="relative z-10">
                         {i === 0 && (
-                          <div
-                            className="rgb-heading rgb-heading-strong text-[14vw] leading-[0.9] font-semibold tracking-tight text-white mb-12 lg:text-[120px] will-change-transform"
+                          <h1
+                            className="rgb-heading rgb-heading-strong text-[10vw] sm:text-[8vw] lg:text-[7vw] leading-[0.85] tracking-tighter font-black uppercase text-white mb-12 will-change-transform"
                             style={{ filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.55)) drop-shadow(0 1px 2px rgba(0,0,0,0.65))" }}
                           >
                             {t("about.title")}
-                          </div>
+                          </h1>
                         )}
 
                         <h2 className="heading-strategy text-[28px] text-white/95 mb-6">

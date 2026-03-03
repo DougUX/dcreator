@@ -4,9 +4,11 @@ import Container from "./Container";
 import { featuredWork } from "./data";
 import { useMemo, useState } from "react";
 import Image from "next/image";
+import ScrollVideo from "./ScrollVideo";
 import { motion, AnimatePresence } from "framer-motion";
 import Reveal from "./Reveal";
 import { useI18n } from "@/components/I18nProvider";
+import AnimatedButton from "./AnimatedButton";
 
 export default function FeaturedWork() {
   const { t } = useI18n();
@@ -28,12 +30,13 @@ export default function FeaturedWork() {
               </h2>
             </div>
 
-            <a
+            <AnimatedButton
               href="#"
-              className="inline-flex w-fit rounded-full border border-[rgb(var(--border))] px-4 py-2 hover:bg-[rgb(var(--card))] transition"
+              variant="secondary"
+              className="!min-w-0 !px-6 !py-2.5 !text-sm uppercase"
             >
               {t("work.viewAll")}
-            </a>
+            </AnimatedButton>
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-12">
@@ -45,6 +48,7 @@ export default function FeaturedWork() {
                     <a
                       key={item.title}
                       href="#"
+                      onClick={(e) => e.preventDefault()}
                       onMouseEnter={() => setActive(idx)}
                       onFocus={() => setActive(idx)}
                       className={[
@@ -81,13 +85,20 @@ export default function FeaturedWork() {
                       transition={{ duration: 0.35, ease: "easeOut" }}
                       className="absolute inset-0"
                     >
-                      <Image
-                        src={current.image}
-                        alt={current.title}
-                        fill
-                        className="object-cover"
-                        priority
-                      />
+                      {current.image.endsWith(".mp4") ? (
+                        <ScrollVideo
+                          src={current.image}
+                          className="w-full h-full"
+                        />
+                      ) : (
+                        <Image
+                          src={current.image}
+                          alt={current.title}
+                          fill
+                          className="object-cover"
+                          priority
+                        />
+                      )}
                     </motion.div>
                   </AnimatePresence>
                 </div>

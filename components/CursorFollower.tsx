@@ -65,6 +65,13 @@ export default function CursorFollower() {
       target.x = e.clientX;
       target.y = e.clientY;
       updateTextLabel();
+
+      // Check if cursor should be forcefully hidden
+      const el = e.target as Element | null;
+      const shouldHide = el && el.closest('[data-hide-cursor="true"]');
+
+      if (dotRef.current) dotRef.current.style.opacity = shouldHide ? "0" : "1";
+      if (ringRef.current) ringRef.current.style.opacity = shouldHide ? "0" : "0.65";
     };
 
     const onScroll = () => {
@@ -126,7 +133,7 @@ export default function CursorFollower() {
   if (isTouch) return null;
 
   return (
-    <div ref={rootRef} data-cursor-follower className="pointer-events-none fixed inset-0 z-[9999]">
+    <div ref={rootRef} data-cursor-follower className="pointer-events-none fixed inset-0 z-[99999]">
       <div
         ref={ringRef}
         className="absolute left-0 top-0 h-10 w-10 rounded-full border border-[rgb(var(--cursor-ring))] mix-blend-difference"

@@ -3,6 +3,7 @@
 import Container from "./Container";
 import { featuredWork } from "./data";
 import Image from "next/image";
+import ScrollVideo from "./ScrollVideo";
 import { motion } from "framer-motion";
 
 export default function WorksGrid() {
@@ -28,6 +29,7 @@ export default function WorksGrid() {
                         return (
                             <motion.a
                                 href="#"
+                                onClick={(e) => e.preventDefault()}
                                 key={item.title}
                                 initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -37,14 +39,21 @@ export default function WorksGrid() {
                                     }`}
                                 style={{ aspectRatio: "4/5" }}
                             >
-                                {/* Image */}
+                                {/* Image or Video */}
                                 <div className="absolute inset-0 w-full h-full overflow-hidden">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        fill
-                                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-                                    />
+                                    {item.image.endsWith(".mp4") ? (
+                                        <ScrollVideo
+                                            src={item.image}
+                                            className="absolute inset-0 w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105"
+                                        />
+                                    ) : (
+                                        <Image
+                                            src={item.image}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                                        />
+                                    )}
                                 </div>
 
                                 {/* Gradient Overlay for Readability */}

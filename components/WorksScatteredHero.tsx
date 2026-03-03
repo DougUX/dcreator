@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { featuredWork } from "./data";
+import ScrollVideo from "./ScrollVideo";
 
 export default function WorksScatteredHero() {
     const containerRef = useRef<HTMLElement>(null);
@@ -59,7 +60,7 @@ export default function WorksScatteredHero() {
 
                 {/* Central Title */}
                 <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 max-w-3xl mx-auto">
-                    <h2 className="rgb-heading rgb-heading-strong text-[14vw] leading-[0.9] font-medium tracking-tight text-white mb-6 lg:text-[120px]"
+                    <h2 className="rgb-heading rgb-heading-strong text-[12vw] sm:text-[10vw] leading-[0.85] tracking-tighter font-black uppercase text-white mb-6"
                         style={{ filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.55)) drop-shadow(0 1px 2px rgba(0,0,0,0.65))" }}
                     >
                         My Work
@@ -104,13 +105,21 @@ export default function WorksScatteredHero() {
                                         transform: `rotate(-${placement.angle}deg) rotate(${(idx * 15) % 45 - 20}deg)`
                                     }}
                                 >
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        fill
-                                        className="object-cover"
-                                        sizes="(max-width: 768px) 100vw, 33vw"
-                                    />
+                                    {item.image.endsWith(".mp4") ? (
+                                        <ScrollVideo
+                                            src={item.image}
+                                            progress={scrollYProgress}
+                                            className="w-full h-full"
+                                        />
+                                    ) : (
+                                        <Image
+                                            src={item.image}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                        />
+                                    )}
                                     {/* Optional overlay to darken items slightly */}
                                     <div className="absolute inset-0 bg-black/20" />
                                 </div>
@@ -142,7 +151,11 @@ export default function WorksScatteredHero() {
                                         transform: `rotate(-${placement.angle}deg)`
                                     }}
                                 >
-                                    <Image src={item.image} alt={item.title} fill className="object-cover" />
+                                    {item.image.endsWith(".mp4") ? (
+                                        <ScrollVideo src={item.image} progress={scrollYProgress} className="w-full h-full" />
+                                    ) : (
+                                        <Image src={item.image} alt={item.title} fill className="object-cover" />
+                                    )}
                                 </div>
                             </motion.div>
                         );

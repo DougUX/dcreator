@@ -2,136 +2,199 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import Image from "next/image";
 
 const services = [
     {
         id: "01",
         title: "Luxury Perfume Bottle Design",
         description: "Sculptural bottle concepts developed with structural logic, proportion control and material precision.",
-        bullets: [],
-        image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000&auto=format&fit=crop"
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+            </svg>
+        )
     },
     {
         id: "02",
         title: "Luxury Box & Packaging Architecture",
         description: "Rigid box systems, inserts and presentation structures designed for premium unboxing experiences.",
-        bullets: [],
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop"
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+            </svg>
+        )
     },
     {
         id: "03",
         title: "Digital Product Design",
         description: "High-end UX and UI for SaaS platforms, AI systems and enterprise environments.",
-        bullets: [],
-        image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1000&auto=format&fit=crop"
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+            </svg>
+        )
     },
     {
         id: "04",
         title: "Product Strategy",
         description: "Clarity in direction, information architecture and scalable product thinking.",
-        bullets: [],
-        image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop"
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+            </svg>
+        )
     },
     {
         id: "05",
         title: "Design Systems",
         description: "Component frameworks and token systems built for multi-product ecosystems.",
-        bullets: [],
-        image: "https://images.unsplash.com/photo-1590736969955-71cc94801759?q=80&w=1000&auto=format&fit=crop"
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75 16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
+            </svg>
+        )
     },
     {
         id: "06",
         title: "AI Experience Design",
         description: "Conversational and workflow-driven AI interfaces designed with structure and usability in mind.",
-        bullets: [],
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop"
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+            </svg>
+        )
     },
     {
         id: "07",
         title: "Creative Direction",
         description: "From early concept to production-ready execution — digital and physical.",
-        bullets: [],
-        image: "/images/luxury_product.png"
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-white/70">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11.412 15.655 9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457c-.341.362-.5.846-.5 1.343v10.95c0 .333.27.6.6.6h11.894c.498 0 .98-.16 1.343-.5L21 19.894a2.25 2.25 0 0 0 .659-1.591V5.25a2.25 2.25 0 0 0-2.25-2.25H9.75a2.25 2.25 0 0 0-1.293.457Z" />
+            </svg>
+        )
     }
 ];
 
-export default function ServicesStickyList() {
-    const containerRef = useRef<HTMLDivElement>(null);
+function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: number, isLast: boolean }) {
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    // Provide sticky margins so the tabs stack exactly underneath each other
+    // 6rem = 96px for the first one, then padded by i * 80px for each stacked tab underneath it.
+    const stickyTopPixels = 96 + i * 80;
+
+    // Track scroll specifically for THIS card.
+    // 0 = The top of the card has just hit its sticky resting place.
+    // 1 = The user has scrolled 300px *past* it being stuck.
     const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
+        target: cardRef,
+        offset: [`start ${stickyTopPixels}px`, `start ${stickyTopPixels - 300}px`]
     });
 
-    const imageY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+    // Animate based on the scroll progress *after* it gets stuck:
+    // Shrink the icon, title, and ID from 100% to 65% as the user scrolls past it
+    const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.65]);
+
+    // Fade out the paragraph description entirely so it doesn't bleed when the next card slides over it
+    const descriptionOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+    // Dim the title/icon tabs that are stacked
+    const headerOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
     return (
-        <section ref={containerRef} className="relative z-10 bg-black text-white w-full pb-0">
-            <div className="max-w-[1400px] mx-auto w-full px-4 md:px-8 border-t border-white/10 pt-10">
+        <div
+            ref={cardRef}
+            className={`flex flex-row items-start justify-between relative pt-8 md:pt-12 pb-24 md:pb-32 border-t border-white/20 bg-black sticky shadow-[0_-20px_40px_rgba(0,0,0,0.5)] transform-gpu ${isLast ? 'pb-16' : ''}`}
+            style={{
+                top: `${stickyTopPixels}px`,
+                zIndex: i, // Ensure newer cards slide ON TOP of older cards
+            }}
+        >
+            {/* Left Side: Icon + Text Content */}
+            <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8 w-full md:w-[85%] pr-4 md:pr-8 px-4 md:px-0">
 
-                {/* Projects List */}
-                <div className="flex flex-col relative pb-0">
-                    {services.map((service, i) => (
-                        <div
-                            key={service.id}
-                            className={`flex flex-col relative pt-6 md:pt-8 border-t border-white/20 bg-black sticky z-10 shadow-[0_-20px_40px_rgba(0,0,0,0.5)] transform-gpu ${i === services.length - 1 ? 'pb-8' : 'pb-24'}`}
-                            style={{ top: `calc(4rem + ${i} * 3.5rem)` }}
-                        >
-                            {/* Full width Heading */}
-                            <div className="flex justify-between items-start mb-8 md:mb-12">
-                                <h3 className="md: rgb-heading w-[85%]">
-                                    {service.title}
-                                </h3>
-                                <div className="text-white/40 font-mono text-lg md:text-xl pt-1">{service.id}</div>
-                            </div>
+                {/* 1. Icon (Shrinks) */}
+                <motion.div
+                    className="shrink-0 pt-1 origin-top-left"
+                    style={{ scale: contentScale, opacity: headerOpacity }}
+                >
+                    {service.icon}
+                </motion.div>
 
-                            {/* Content Row underneath */}
-                            <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
-                                {/* Left Image Column */}
-                                <div className="md:w-[55%] w-full h-[40vh] relative overflow-hidden rounded-xl">
-                                    <div className="w-full h-full relative group cursor-none" data-cursor-text="View">
-                                        <motion.div
-                                            className="w-full h-[140%] -top-[20%] relative"
-                                            initial={{ opacity: 0, filter: "blur(10px)" }}
-                                            whileInView={{ opacity: 1, filter: "blur(0px)" }}
-                                            viewport={{ once: false, amount: 0.3 }}
-                                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                                            style={{ y: imageY }}
-                                        >
-                                            <Image
-                                                src={service.image.startsWith('/') && !service.image.startsWith('/file:') ? service.image : service.image.replace('/file://', '')}
-                                                alt={service.title}
-                                                fill
-                                                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                                            />
-                                        </motion.div>
-                                    </div>
-                                </div>
+                {/* 2. Title & Left-Aligned Paragraphs */}
+                <div className="flex flex-col justify-start">
 
-                                {/* Right Text Column */}
-                                <div className="md:w-[45%] w-full flex flex-col justify-start pt-2">
-                                    <motion.div
-                                        initial={{ y: 50, opacity: 0 }}
-                                        whileInView={{ y: 0, opacity: 1 }}
-                                        viewport={{ once: true, margin: "-10%" }}
-                                        transition={{ duration: 0.6 }}
-                                    >
-                                        <div className="text-lg md:text-xl text-white/70 leading-relaxed font-sans max-w-lg whitespace-pre-line mb-8">
-                                            {service.description}
-                                        </div>
-                                        {service.bullets && service.bullets.length > 0 && (
-                                            <ul className="list-disc list-inside flex flex-col gap-3 text-white/50 font-sans text-md md:text-lg">
-                                                {service.bullets.map((bullet, idx) => (
-                                                    <li key={idx}>{bullet}</li>
-                                                ))}
-                                            </ul>
-                                        )}
-                                    </motion.div>
-                                </div>
-                            </div>
+                    {/* Title (Shrinks & Dims) */}
+                    <motion.h3
+                        className="rgb-heading text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight whitespace-pre-line mb-4 origin-top-left"
+                        style={{ scale: contentScale, opacity: headerOpacity }}
+                    >
+                        {service.title}
+                    </motion.h3>
+
+                    {/* Description (Stays Bright) */}
+                    <motion.div
+                        initial={{ y: 20, opacity: 0 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        viewport={{ once: true, margin: "-10%" }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <div className="text-lg md:text-xl text-white leading-relaxed font-sans max-w-2xl text-left mt-2">
+                            {service.description}
                         </div>
-                    ))}
+                    </motion.div>
                 </div>
+
+            </div>
+
+            {/* Right Side: ID Number (Shrinks & Dims) */}
+            <motion.div
+                className="text-white/40 font-mono text-lg md:text-2xl shrink-0 pt-2 text-right origin-top-right pr-4 md:pr-0"
+                style={{ scale: contentScale, opacity: headerOpacity }}
+            >
+                {service.id}
+            </motion.div>
+
+        </div>
+    );
+}
+
+export default function ServicesStickyList() {
+    return (
+        <section className="relative z-10 bg-black text-white w-full">
+            <div className="max-w-[1200px] mx-auto w-full px-4 md:px-8 border-t border-white/10 pt-10">
+
+                {/* 
+                  Sticky "What I Do" Header
+                  This sticks to the top of the viewport globally for the entire duration 
+                  of this 7-item stack scrolling past.
+                */}
+                <div className="sticky top-12 md:top-20 z-50 mb-16 pointer-events-none">
+                    <h2 className="rgb-heading text-4xl md:text-6xl font-medium tracking-tight">
+                        What I Do
+                    </h2>
+                </div>
+
+                {/* Projects List - Regular Stacked Column */}
+                <div className="flex flex-col relative w-full h-full">
+                    {services.map((service, i) => (
+                        <ServiceCard
+                            key={service.id}
+                            service={service}
+                            i={i}
+                            isLast={i === services.length - 1}
+                        />
+                    ))}
+
+                    {/* 
+                      Invisible buffer space at the very bottom of the sticky container.
+                      This ensures that the FINAL item (#07) has enough scroll runway 
+                      to actually slide up to the top, stick to #06, and trigger its 
+                      shrinking animation before the entire <section> scrolls out of view.
+                    */}
+                    <div className="h-[80vh] w-full pointer-events-none opacity-0" />
+                </div>
+
             </div>
         </section>
     );
