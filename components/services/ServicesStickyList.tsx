@@ -176,33 +176,36 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
     return (
         <div
             ref={cardRef}
-            className={`flex flex-row items-start justify-between relative pt-8 md:pt-12 pb-24 md:pb-32 border-t border-white/20 bg-black sticky shadow-[0_-20px_40px_rgba(0,0,0,0.5)] transform-gpu ${isLast ? 'pb-16' : ''}`}
+            className={`flex flex-col md:flex-row items-start justify-between relative pt-0 md:pt-12 pb-24 md:pb-32 border-t border-white/20 bg-black md:sticky shadow-[0_-20px_40px_rgba(0,0,0,0.5)] transform-gpu ${isLast ? 'pb-16' : ''} md:top-[var(--card-top)]`}
             style={{
-                top: `${stickyTopPixels}px`,
+                '--card-top': `${stickyTopPixels}px`,
                 zIndex: i, // Ensure newer cards slide ON TOP of older cards
-            }}
+            } as any}
         >
             {/* Left Side: Icon + Text Content */}
             <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8 w-full md:w-[85%] pr-4 md:pr-8 px-4 md:px-0">
 
-                {/* 1. Icon (Shrinks) */}
-                <motion.div
-                    className="shrink-0 pt-1 origin-top-left"
-                    style={{ scale: contentScale, opacity: headerOpacity }}
-                >
-                    {service.icon}
-                </motion.div>
-
-                {/* 2. Title & Left-Aligned Paragraphs */}
-                <div className="flex flex-col justify-start">
+                {/* Mobile Sticky Title Bar */}
+                <div className="flex flex-row md:flex-col items-center md:items-start gap-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 -mx-4 px-4 w-[calc(100%+32px)] md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:w-auto border-b border-white/10 md:border-none shadow-xl md:shadow-none">
+                    {/* 1. Icon (Shrinks) */}
+                    <motion.div
+                        className="shrink-0 origin-top-left"
+                        style={{ scale: contentScale, opacity: headerOpacity }}
+                    >
+                        {service.icon}
+                    </motion.div>
 
                     {/* Title (Shrinks & Dims) */}
                     <motion.h3
-                        className="rgb-heading text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight whitespace-pre-line mb-4 origin-top-left"
+                        className="rgb-heading text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight whitespace-pre-line origin-top-left"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.title}
                     </motion.h3>
+                </div>
+
+                {/* 2. Text Configuration */}
+                <div className="flex flex-col justify-start mt-2 md:mt-0">
 
                     {/* Description (Stays Bright) */}
                     <motion.div
@@ -249,11 +252,11 @@ export default function ServicesStickyList() {
             <div className="max-w-[1200px] mx-auto w-full px-4 md:px-8 border-t border-white/10 pt-10">
 
                 {/* 
-                  Sticky "What I Do" Header
+                  Sticky "What I Offer" Header
                   This sticks to the top of the viewport globally for the entire duration 
                   of this 7-item stack scrolling past.
                 */}
-                <div className="sticky top-12 md:top-20 z-50 mb-16 pointer-events-none">
+                <div className="sticky top-[80px] md:top-20 z-50 mb-16 pointer-events-none">
                     <h2 className="rgb-heading text-4xl md:text-6xl font-medium tracking-tight">
                         What I Offer
                     </h2>

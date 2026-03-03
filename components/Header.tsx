@@ -90,9 +90,9 @@ export default function Header() {
           </Link>
 
           {/* RIGHT SIDE ACTIONS */}
-          <div className="flex items-center gap-[40px]">
+          <div className="flex items-center gap-4 md:gap-[40px]">
             <div className={[
-              "flex items-center gap-[40px] transition-opacity duration-300",
+              "flex items-center gap-4 md:gap-[40px] transition-opacity duration-300",
               menuOpen ? "opacity-0 pointer-events-none" : "opacity-100"
             ].join(" ")}>
               <div className="relative hidden sm:inline-flex">
