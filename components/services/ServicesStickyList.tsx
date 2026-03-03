@@ -176,7 +176,7 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
     return (
         <div
             ref={cardRef}
-            className={`flex flex-col md:flex-row items-start justify-between relative pt-0 md:pt-12 pb-24 md:pb-32 border-t border-white/20 bg-black md:sticky shadow-[0_-20px_40px_rgba(0,0,0,0.5)] transform-gpu ${isLast ? 'pb-16' : ''} md:top-[var(--card-top)]`}
+            className={`flex flex-col md:flex-row items-start justify-between relative pt-0 md:pt-8 pb-24 md:pb-32 border-t border-white/20 bg-black md:sticky shadow-[0_-20px_40px_rgba(0,0,0,0.5)] transform-gpu ${isLast ? 'pb-16' : ''} md:top-[var(--card-top)]`}
             style={{
                 '--card-top': `${stickyTopPixels}px`,
                 zIndex: i, // Ensure newer cards slide ON TOP of older cards
@@ -185,11 +185,11 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
             {/* Left Side: Icon + Text Content */}
             <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8 w-full md:w-[85%] pr-4 md:pr-8 px-4 md:px-0">
 
-                {/* Mobile Sticky Title Bar */}
-                <div className="flex flex-row md:flex-col items-center md:items-start gap-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 -mx-4 px-4 w-[calc(100%+32px)] md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:w-auto border-b border-white/10 md:border-none shadow-xl md:shadow-none">
+                {/* Sticky Title Bar - Horizonally aligned on both mobile and desktop so it fits in the stacking sliver! */}
+                <div className="flex flex-row items-center gap-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 -mx-4 px-4 w-[calc(100%+32px)] md:static md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:w-auto border-b border-white/10 md:border-none shadow-xl md:shadow-none">
                     {/* 1. Icon (Shrinks) */}
                     <motion.div
-                        className="shrink-0 origin-top-left"
+                        className="shrink-0 origin-left"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.icon}
@@ -197,7 +197,7 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
 
                     {/* Title (Shrinks & Dims) */}
                     <motion.h3
-                        className="rgb-heading text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight whitespace-pre-line origin-top-left"
+                        className="rgb-heading text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight whitespace-normal origin-left"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.title}
@@ -247,8 +247,16 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
 }
 
 export default function ServicesStickyList() {
+    const containerRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end start"]
+    });
+    // Fade out "What I Offer" as soon as the stack begins scrolling, freeing up stacking space
+    const titleOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
+
     return (
-        <section className="relative z-10 bg-black text-white w-full">
+        <section ref={containerRef} className="relative z-10 bg-black text-white w-full">
             <div className="max-w-[1200px] mx-auto w-full px-4 md:px-8 border-t border-white/10 pt-10">
 
                 {/* 
@@ -256,11 +264,11 @@ export default function ServicesStickyList() {
                   This sticks to the top of the viewport globally for the entire duration 
                   of this 7-item stack scrolling past.
                 */}
-                <div className="sticky top-[80px] md:top-20 z-50 mb-16 pointer-events-none">
+                <motion.div className="sticky top-[80px] md:top-20 z-50 mb-16 pointer-events-none" style={{ opacity: titleOpacity }}>
                     <h2 className="rgb-heading text-4xl md:text-6xl font-medium tracking-tight">
                         What I Offer
                     </h2>
-                </div>
+                </motion.div>
 
                 {/* Projects List - Regular Stacked Column */}
                 <div className="flex flex-col relative w-full h-full">
