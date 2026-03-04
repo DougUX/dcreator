@@ -64,7 +64,7 @@ export default function ConfidentialGatedView() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
                         transition={{ duration: 0.8, ease: "easeInOut" }}
-                        className="absolute inset-0 z-40 flex flex-col items-center justify-start pt-32 px-4"
+                        className="absolute inset-0 z-40 flex flex-col items-center justify-center px-4"
                     >
                         {/* Title Section */}
                         <div className="text-center max-w-2xl mb-12 flex flex-col items-center">
