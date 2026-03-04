@@ -200,20 +200,27 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
         >
             <div className="flex flex-col md:grid md:grid-cols-12 items-start w-full px-4 md:px-8">
 
-                {/* 1. Title (Mobile Sticky Bar / Desktop Left Col) */}
-                <div className="md:col-span-4 lg:col-span-5 flex flex-row items-center justify-between w-[calc(100%+32px)] -mx-4 px-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 border-b border-white/10 shadow-xl md:static md:w-full md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:border-none md:shadow-none md:block">
+                {/* 1. Title & Icon (Mobile Sticky Bar / Desktop Left Col) */}
+                <div className="md:col-span-5 flex flex-row items-center justify-between w-[calc(100%+32px)] -mx-4 px-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 border-b border-white/10 shadow-xl md:static md:w-full md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:border-none md:shadow-none md:justify-start md:gap-5">
+
+                    {/* Mobile + Desktop Icon on the Left */}
+                    <motion.div
+                        className="shrink-0 scale-75 md:scale-100 origin-left"
+                        style={{ scale: contentScale, opacity: headerOpacity }}
+                    >
+                        {service.icon}
+                    </motion.div>
+
+                    {/* Title */}
                     <motion.h3
-                        className="rgb-heading text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight whitespace-normal origin-left group-hover:text-white transition-colors"
+                        className="rgb-heading text-xl md:text-3xl lg:text-4xl font-medium tracking-tight whitespace-normal origin-left group-hover:text-white transition-colors"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.title}
                     </motion.h3>
 
-                    {/* Mobile Only: Icon & ID on the right within the sticky bar */}
-                    <div className="flex md:hidden flex-row items-center gap-3">
-                        <motion.div className="shrink-0 scale-75 origin-right">
-                            {service.icon}
-                        </motion.div>
+                    {/* Mobile Only: ID on the right within the sticky bar */}
+                    <div className="flex md:hidden flex-row items-center gap-3 shrink-0">
                         <div className="text-white/40 font-mono text-lg">
                             {service.id}
                         </div>
@@ -221,7 +228,7 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
                 </div>
 
                 {/* 2. Paragraphs (Desktop Middle Col / Mobile under title) */}
-                <div className="md:col-span-6 lg:col-span-5 flex flex-col justify-start mt-4 md:mt-0 px-0 md:px-0">
+                <div className="md:col-span-6 flex flex-col justify-start mt-4 md:mt-0 px-0 md:px-0">
 
                     {/* Description (Stays Bright) */}
                     <motion.div
@@ -248,16 +255,10 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
                     </motion.div>
                 </div>
 
-                {/* 3. Icon + ID (Desktop Only Right Col) */}
-                <div className="hidden md:flex md:col-span-2 lg:col-span-2 flex-row justify-end items-start gap-6 origin-top-right">
+                {/* 3. ID (Desktop Only Right Col) */}
+                <div className="hidden md:flex md:col-span-1 flex-row justify-end items-start origin-top-right">
                     <motion.div
-                        className="shrink-0 pt-1 origin-right"
-                        style={{ scale: contentScale, opacity: headerOpacity }}
-                    >
-                        {service.icon}
-                    </motion.div>
-                    <motion.div
-                        className="text-white/40 font-mono text-2xl origin-right pt-1"
+                        className="text-white/40 font-mono text-xl lg:text-2xl origin-right pt-2"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.id}
