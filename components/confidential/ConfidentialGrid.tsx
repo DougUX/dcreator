@@ -9,7 +9,12 @@ const confidentialProjects = [
     { id: "02", title: "Premium Box Architecture 02", category: "Structural Design", image: "/portfolio/TSODgift.png" },
     { id: "03", title: "Limited Edition Gift Set 03", category: "Concept", image: "/portfolio/Meydan.png" },
     { id: "04", title: "Material Finish Study 04", category: "R&D", image: "/portfolio/TSODgift.png" },
-    { id: "05", title: "Sculptural Cap Exploration 05", category: "Industrial Design", image: "/portfolio/Meydan.png" }
+    { id: "05", title: "Sculptural Cap Exploration 05", category: "Industrial Design", image: "/portfolio/Meydan.png" },
+    { id: "06", title: "Bespoke Outer Primary 06", category: "Packaging", image: "/portfolio/TSODgift.png" },
+    { id: "07", title: "Sleek Minimalist Form 07", category: "Concept", image: "/portfolio/Meydan.png" },
+    { id: "08", title: "Sustainable Substrate 08", category: "Materials", image: "/portfolio/TSODgift.png" },
+    { id: "09", title: "Onyx Collection Reveal 09", category: "Industrial", image: "/portfolio/Meydan.png" },
+    { id: "10", title: "Golden Ratio Proportion 10", category: "Structural Design", image: "/portfolio/TSODgift.png" }
 ];
 
 export default function ConfidentialGrid() {

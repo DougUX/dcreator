@@ -7,24 +7,37 @@ import ConfidentialGrid from "./ConfidentialGrid";
 
 export default function ConfidentialGatedView() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
+    const [code, setCode] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const [chatMessage, setChatMessage] = useState("Hi Doug, I would like to request the password to view your Confidential Collection portfolio.");
+    const [chatMessage, setChatMessage] = useState("Hi Doug, I would like to request the access code to view your Confidential Collection portfolio.");
 
-    // Fallback static password if the environment variable isn't set yet
-    const MASTER_PASSWORD = process.env.NEXT_PUBLIC_CONFIDENTIAL_PASSWORD || "unlock2026";
-
-    const handleUnlock = (e: React.FormEvent) => {
+    const handleUnlock = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrorMsg("");
+        setIsLoading(true);
 
-        if (password === MASTER_PASSWORD) {
-            setIsAuthenticated(true);
-        } else {
-            setErrorMsg("Incorrect password.");
-            setPassword("");
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone, code }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                setIsAuthenticated(true);
+            } else {
+                setErrorMsg(data.error || "Invalid phone number or access code.");
+            }
+        } catch (err) {
+            setErrorMsg("Network error contacting server.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -82,23 +95,31 @@ export default function ConfidentialGatedView() {
                         <div className="w-full max-w-sm bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl flex flex-col gap-6">
                             <form onSubmit={handleUnlock} className="flex flex-col gap-4">
                                 <div className="text-center mb-2">
-                                    <h3 className="text-lg text-white font-medium">Enter Password</h3>
+                                    <h3 className="text-lg text-white font-medium">Verify Identity</h3>
                                 </div>
 
                                 <input
-                                    type="password"
+                                    type="tel"
                                     required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
                                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-center text-lg tracking-widest text-white focus:outline-none focus:border-white/40 transition-colors"
-                                    placeholder="••••••••"
-                                    autoFocus
+                                    placeholder="+44 7123 456789"
+                                />
+
+                                <input
+                                    type="text"
+                                    required
+                                    value={code}
+                                    onChange={(e) => setCode(e.target.value)}
+                                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-center text-lg tracking-widest text-white focus:outline-none focus:border-white/40 transition-colors"
+                                    placeholder="Access Code"
                                 />
 
                                 {errorMsg && <p className="text-red-400 text-xs text-center">{errorMsg}</p>}
 
                                 <AnimatedButton type="submit" variant="primary" className="w-full py-3">
-                                    Unlock Portfolio
+                                    {isLoading ? "Verifying..." : "Unlock Portfolio"}
                                 </AnimatedButton>
                             </form>
 
