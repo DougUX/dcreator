@@ -29,7 +29,7 @@ export default function ConfidentialGatedView() {
     };
 
     // Pre-filled WhatsApp message URL
-    const whatsappNumber = "447911123456"; // User can change this to their real WhatsApp number
+    const whatsappNumber = "447397392319"; // User's real WhatsApp number
 
     const handleSendWhatsApp = () => {
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(chatMessage)}`;
