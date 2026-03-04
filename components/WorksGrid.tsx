@@ -90,7 +90,7 @@ export default function WorksGrid() {
                     <p className="text-sm md:text-base text-white/50 mb-12 max-w-2xl leading-relaxed">
                         Viewing access is granted on the condition that the designs remain strictly confidential and are not copied, reproduced, or distributed in any form.
                     </p>
-                    <AnimatedButton href="/contact" variant="primary">
+                    <AnimatedButton href="/confidential" variant="primary">
                         Request Access
                     </AnimatedButton>
                 </div>
