@@ -133,7 +133,7 @@ export default function ConfidentialGatedView() {
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
                         className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
                     >
-                        <div className="w-full max-w-md bg-[#0b141a] rounded-2xl overflow-hidden shadow-2xl border border-white/5 flex flex-col h-[600px] max-h-[85vh]">
+                        <div className="w-full max-w-md bg-[#0b141a] rounded-2xl overflow-hidden shadow-2xl border border-white/5 flex flex-col h-auto min-h-[450px] max-h-[85vh]">
 
                             {/* WhatsApp Header */}
                             <div className="bg-[#202c33] px-4 py-3 flex items-center justify-between shadow-md z-10 w-full">
