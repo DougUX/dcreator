@@ -67,7 +67,8 @@ export async function middleware(req: NextRequest) {
 
     if (!isAuthorized) {
       const loginUrl = req.nextUrl.clone();
-      loginUrl.pathname = `/${seg}/confidential`;
+      loginUrl.pathname = `/${seg}/work`;
+      loginUrl.hash = "confidential";
       const res = NextResponse.redirect(loginUrl);
       return res;
     }

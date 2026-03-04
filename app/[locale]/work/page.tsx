@@ -2,6 +2,7 @@ import WorksGrid from "@/components/WorksGrid";
 import WorksScatteredHero from "@/components/WorksScatteredHero";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ConfidentialGatedView from "@/components/confidential/ConfidentialGatedView";
 
 export default function WorkPage() {
     return (
@@ -12,6 +13,8 @@ export default function WorkPage() {
                 <div className="bg-[#080808] relative z-10">
                     <WorksGrid />
                 </div>
+                {/* Embedded Confidential Popup Flow */}
+                <ConfidentialGatedView />
             </main>
             <Footer />
         </div>
