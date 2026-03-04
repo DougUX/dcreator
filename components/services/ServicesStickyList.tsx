@@ -199,11 +199,11 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
             <div className="flex flex-col md:grid md:grid-cols-12 items-start w-full px-4 md:px-8 md:gap-x-8 lg:gap-x-12">
 
                 {/* 1. Title & Icon (Mobile Sticky Bar / Desktop Left Col) */}
-                <div className="md:col-span-5 flex flex-row items-center justify-between w-[calc(100%+32px)] -mx-4 px-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 border-b border-white/10 shadow-xl md:static md:w-full md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:border-none md:shadow-none md:justify-start md:gap-5">
+                <div className="md:col-span-5 flex flex-row items-center md:items-start justify-between w-[calc(100%+32px)] -mx-4 px-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 border-b border-white/10 shadow-xl md:static md:w-full md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:border-none md:shadow-none md:justify-start md:gap-5">
 
                     {/* Mobile + Desktop Icon on the Left */}
                     <motion.div
-                        className="shrink-0 scale-75 md:scale-100 origin-left"
+                        className="shrink-0 scale-75 md:scale-100 origin-top-left md:pt-1 lg:pt-2"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.icon}
@@ -256,7 +256,7 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
                 {/* 3. ID (Desktop Only Right Col) */}
                 <div className="hidden md:flex md:col-span-1 flex-row justify-end items-start origin-top-right">
                     <motion.div
-                        className="text-white/40 font-mono text-xl lg:text-2xl origin-right pt-2"
+                        className="text-white/40 font-mono text-xl lg:text-2xl origin-top-right pt-2"
                         style={{ scale: contentScale, opacity: headerOpacity }}
                     >
                         {service.id}
@@ -283,14 +283,6 @@ export default function ServicesStickyList() {
                             isLast={i === services.length - 1}
                         />
                     ))}
-
-                    {/* 
-                      Invisible buffer space at the very bottom of the sticky container.
-                      This ensures that the FINAL item (#07) has enough scroll runway 
-                      to actually slide up to the top, stick to #06, and trigger its 
-                      shrinking animation before the entire <section> scrolls out of view.
-                    */}
-                    <div className="h-[80vh] w-full pointer-events-none opacity-0" />
                 </div>
 
             </div>
