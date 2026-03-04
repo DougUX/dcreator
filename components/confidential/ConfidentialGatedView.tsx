@@ -178,7 +178,18 @@ export default function ConfidentialGatedView() {
                                     </div>
                                 </div>
 
-                                {/* Simulated Outgoing Request Message */}
+                                {/* Simulated Incoming Welcome Message (from Doug) */}
+                                <div className="flex justify-start mb-4">
+                                    <div className="bg-[#202c33] text-[#e9edef] p-3 rounded-xl rounded-tl-none max-w-[85%] shadow-sm relative text-[15px] leading-relaxed">
+                                        Hi there! 👋 Thanks for your interest in my Confidential Collection. <br /><br />
+                                        Just tap Send below, and I'll reply with your unique password shortly!
+                                        <div className="flex justify-end items-center gap-1 mt-1 text-[10px] text-white/50">
+                                            <span>{new Date(Date.now() - 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Simulated Outgoing Request Message (from User) */}
                                 <div className="flex justify-end mb-2">
                                     <div className="bg-[#005c4b] text-[#e9edef] p-2.5 rounded-xl rounded-tr-none max-w-[85%] shadow-sm relative text-[15px] leading-relaxed">
                                         {chatMessage}
