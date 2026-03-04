@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import * as jose from "jose";
+import fs from "fs";
+import path from "path";
 
 // The Middleware already strictly protects this route using Jose JWT verification.
 // If the user reaches this component, they have a valid Next.js server session cookie.
@@ -45,6 +47,34 @@ export default async function DummyProjectPage({ params }: { params: Promise<{ i
     // Trigger the asynchronous telemetry tracking
     await logActivity(resolvedParams.id);
 
+    // Dynamic Image Mapping
+    let realImageSrc: string | null = null;
+    let realImageName: string | null = null;
+    try {
+        const indexStr = resolvedParams.id.replace("project-", "");
+        const projectIndex = parseInt(indexStr, 10) - 1;
+
+        if (!isNaN(projectIndex) && projectIndex >= 0) {
+            const dirPath = path.join(process.cwd(), "public", "portfolio", "confidential");
+            if (fs.existsSync(dirPath)) {
+                const files = fs.readdirSync(dirPath).filter(f =>
+                    f.endsWith(".png") || f.endsWith(".jpg") ||
+                    f.endsWith(".jpeg") || f.endsWith(".webp") || f.endsWith(".gif")
+                );
+
+                if (projectIndex < files.length) {
+                    realImageSrc = `/portfolio/confidential/${files[projectIndex]}`;
+                    realImageName = files[projectIndex].split('.')[0].replace(/-/g, ' ');
+                }
+            }
+        }
+    } catch (e) {
+        console.error("Error mapping confidential image:", e);
+    }
+
+    const imageToRender = realImageSrc || "/images/perfume_bottle_3d.png";
+    const titleToRender = realImageName ? realImageName : resolvedParams.id.replace(/-/g, " ");
+
     return (
         <div className="bg-[#050505] min-h-screen text-white font-sans selection:bg-white/30 selection:text-white">
             <Header />
@@ -55,10 +85,10 @@ export default async function DummyProjectPage({ params }: { params: Promise<{ i
                 <div className="relative w-full max-w-sm md:max-w-md lg:max-w-lg aspect-[3/4] flex-shrink-0 animate-fade-in-up">
                     <div className="absolute inset-0 bg-white/5 rounded-[3rem] shadow-[0_0_80px_rgba(255,255,255,0.02)] border border-white/5 pointer-events-none" />
                     <Image
-                        src="/images/perfume_bottle_3d.png"
-                        alt={resolvedParams.id}
+                        src={imageToRender}
+                        alt={titleToRender}
                         fill
-                        className="object-contain drop-shadow-2xl mix-blend-lighten scale-95"
+                        className={`object-contain drop-shadow-2xl scale-95 ${!realImageSrc ? 'mix-blend-lighten' : ''}`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-80 pointer-events-none rounded-[3rem]" />
                 </div>
@@ -66,8 +96,8 @@ export default async function DummyProjectPage({ params }: { params: Promise<{ i
                 {/* Content & Telemetry Info (Right side on desktop, bottom on mobile) */}
                 <div className="flex flex-col items-start max-w-xl">
                     <div className="flex items-center gap-3 mb-6">
-                        <span className="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-mono text-white/80 border border-white/10 uppercase tracking-widest">
-                            Secure Asset
+                        <span className={`backdrop-blur-md px-3 py-1 rounded-full text-xs font-mono border uppercase tracking-widest ${realImageSrc ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-white/10 text-white/80 border-white/10'}`}>
+                            {realImageSrc ? "Active Asset" : "Secure Asset"}
                         </span>
                         <span className="text-green-500/80 font-mono text-xs uppercase tracking-widest flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
@@ -76,11 +106,13 @@ export default async function DummyProjectPage({ params }: { params: Promise<{ i
                     </div>
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight leading-tight mb-6 text-white uppercase">
-                        {resolvedParams.id.replace(/-/g, " ")}
+                        {titleToRender}
                     </h1>
 
                     <p className="text-lg md:text-xl text-white/50 font-light mb-12 leading-relaxed">
-                        This high-fidelity 3D rendering is currently secured behind the Confidential Collection firewall. Your interaction is securely logged via JWT session streaming.
+                        {realImageSrc
+                            ? "This high-fidelity original asset is currently secured behind the Confidential Collection firewall. Your interaction is securely logged via JWT session streaming."
+                            : "This classified 3D rendering is currently secured behind the Confidential Collection firewall. Your interaction is securely logged via JWT session streaming."}
                     </p>
 
                     <Link

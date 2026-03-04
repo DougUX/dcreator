@@ -3,17 +3,36 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-
-const confidentialProjects = Array.from({ length: 10 }, (_, i) => ({
-    id: `0${i + 1}`.slice(-2),
-    title: `Project Volume ${i + 1}`,
-    category: "Confidential 3D",
-    image: "/images/perfume_bottle_3d.png"
-}));
+import { useEffect, useRef, useState } from "react";
 
 export default function ConfidentialGrid() {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const [realImages, setRealImages] = useState<string[]>([]);
+
+    useEffect(() => {
+        // Fetch dynamically added images from /public/portfolio/confidential/
+        fetch("/api/confidential-images")
+            .then(res => res.json())
+            .then(data => {
+                if (data.files && Array.isArray(data.files)) {
+                    setRealImages(data.files.map((file: string) => `/portfolio/confidential/${file}`));
+                }
+            })
+            .catch(console.error);
+    }, []);
+
+    // Build the 10 slots: use real images first, fill the rest with the default 3D bottle
+    const confidentialProjects = Array.from({ length: 10 }, (_, i) => {
+        const hasRealImage = i < realImages.length;
+        const filename = hasRealImage ? realImages[i].split('/').pop()?.split('.')[0] : null;
+        return {
+            id: `0${i + 1}`.slice(-2),
+            title: filename ? filename.replace(/-/g, ' ') : `Project Volume ${i + 1}`,
+            category: hasRealImage ? "Active Asset" : "Confidential 3D",
+            image: hasRealImage ? realImages[i] : "/images/perfume_bottle_3d.png",
+            isReal: hasRealImage
+        };
+    });
 
     return (
         <div className="w-full pb-32 relative">
@@ -34,30 +53,32 @@ export default function ConfidentialGrid() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98], delay: idx * 0.05 }}
-                            className="relative w-full aspect-[3/4] overflow-hidden rounded-[2rem] bg-[#050505] shadow-[0_10px_40px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out group-hover:-translate-y-4 group-hover:shadow-[0_20px_50px_rgba(255,255,255,0.03)] border border-white/5"
+                            className={`relative w-full aspect-[3/4] overflow-hidden rounded-[2rem] bg-[#050505] shadow-[0_10px_40px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out group-hover:-translate-y-4 group-hover:shadow-[0_20px_50px_rgba(255,255,255,0.03)] border ${item.isReal ? "border-green-500/10" : "border-white/5"}`}
                         >
-                            {/* 3D Bottle Image */}
+                            {/* Image */}
                             <Image
                                 src={item.image}
                                 alt={item.title}
                                 fill
-                                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110 mix-blend-lighten"
+                                className={`object-cover transition-transform duration-1000 ease-out group-hover:scale-110 ${!item.isReal ? "mix-blend-lighten" : ""}`}
                             />
 
-                            {/* Security Watermark */}
-                            <div className="absolute inset-0 pointer-events-none flex mx-auto items-center justify-center overflow-hidden opacity-5 z-10 w-full">
-                                <div className="transform -rotate-90 text-white font-mono text-xl md:text-2xl tracking-[0.5em] whitespace-nowrap select-none mix-blend-overlay">
-                                    [ CLASSIFIED ]
+                            {/* Security Watermark (Only for placeholders) */}
+                            {!item.isReal && (
+                                <div className="absolute inset-0 pointer-events-none flex mx-auto items-center justify-center overflow-hidden opacity-5 z-10 w-full">
+                                    <div className="transform -rotate-90 text-white font-mono text-xl md:text-2xl tracking-[0.5em] whitespace-nowrap select-none mix-blend-overlay">
+                                        [ CLASSIFIED ]
+                                    </div>
                                 </div>
-                            </div>
+                            )}
 
                             {/* Subtle Ambient Glow */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90 z-20 pointer-events-none" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent opacity-90 z-20 pointer-events-none" />
 
                             {/* Project Typography Overlay */}
                             <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end z-30 pointer-events-none">
                                 <div className="flex flex-col gap-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out items-center text-center">
-                                    <span className="bg-white/5 backdrop-blur-xl px-4 py-1.5 rounded-full text-[10px] font-mono text-white/70 border border-white/10 w-fit uppercase tracking-[0.2em]">
+                                    <span className={`backdrop-blur-xl px-4 py-1.5 rounded-full text-[10px] font-mono border w-fit uppercase tracking-[0.2em] ${item.isReal ? "bg-green-500/10 text-green-400 border-green-500/20" : "bg-white/5 text-white/70 border-white/10"}`}>
                                         {item.category}
                                     </span>
                                     <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-white/90 group-hover:text-white transition-colors duration-300">
