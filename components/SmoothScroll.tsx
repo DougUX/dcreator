@@ -35,7 +35,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       lenis = new Lenis({
         duration: 1.1,
         smoothWheel: true,
-        wheelMultiplier: 0.9
+        syncTouch: true
       });
 
       (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
