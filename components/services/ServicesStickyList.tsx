@@ -167,9 +167,6 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
     // Shrink the icon, title, and ID from 100% to 65% as the user scrolls past it
     const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.65]);
 
-    // Fade out the paragraph description entirely so it doesn't bleed when the next card slides over it
-    const descriptionOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
     // Dim the title/icon tabs that are stacked
     const headerOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
@@ -198,7 +195,8 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
                 zIndex: i,
             } as any}
         >
-            <div className="flex flex-col md:grid md:grid-cols-12 items-start w-full px-4 md:px-8">
+            {/* Grid Layout Container (Added md:gap-x-12 to prevent title/paragraph collisions) */}
+            <div className="flex flex-col md:grid md:grid-cols-12 items-start w-full px-4 md:px-8 md:gap-x-8 lg:gap-x-12">
 
                 {/* 1. Title & Icon (Mobile Sticky Bar / Desktop Left Col) */}
                 <div className="md:col-span-5 flex flex-row items-center justify-between w-[calc(100%+32px)] -mx-4 px-4 sticky top-[72px] md:top-auto z-20 bg-black/95 backdrop-blur-md pb-4 pt-6 border-b border-white/10 shadow-xl md:static md:w-full md:bg-transparent md:backdrop-blur-none md:p-0 md:m-0 md:border-none md:shadow-none md:justify-start md:gap-5">
@@ -271,28 +269,9 @@ function ServiceCard({ service, i, isLast }: { service: typeof services[0], i: n
 }
 
 export default function ServicesStickyList() {
-    const containerRef = useRef<HTMLElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"]
-    });
-    // Fade out "What I Offer" as soon as the stack begins scrolling, freeing up stacking space
-    const titleOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
-
     return (
-        <section ref={containerRef} className="relative z-10 bg-black text-white w-full">
+        <section className="relative z-10 bg-black text-white w-full">
             <div className="max-w-[1200px] mx-auto w-full px-4 md:px-8 border-t border-white/10 pt-10">
-
-                {/* 
-                  Sticky "What I Offer" Header
-                  This sticks to the top of the viewport globally for the entire duration 
-                  of this 7-item stack scrolling past.
-                */}
-                <motion.div className="sticky top-[80px] md:top-20 z-50 mb-16 pointer-events-none" style={{ opacity: titleOpacity }}>
-                    <h2 className="rgb-heading text-4xl md:text-6xl font-medium tracking-tight">
-                        What I Offer
-                    </h2>
-                </motion.div>
 
                 {/* Projects List - Regular Stacked Column */}
                 <div className="flex flex-col relative w-full h-full">
