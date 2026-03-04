@@ -5,6 +5,7 @@ import { featuredWork } from "./data";
 import Image from "next/image";
 import ScrollVideo from "./ScrollVideo";
 import { motion } from "framer-motion";
+import AnimatedButton from "./AnimatedButton";
 
 export default function WorksGrid() {
     return (
@@ -79,6 +80,21 @@ export default function WorksGrid() {
                         );
                     })}
                 </div>
+
+                {/* Confidential Collection Call to Action */}
+                <div className="mt-32 md:mt-48 mb-16 flex flex-col items-center text-center max-w-4xl mx-auto px-4">
+                    <h2 className="text-4xl md:text-5xl lg:text-7xl font-medium tracking-tight mb-8">Confidential Collection</h2>
+                    <p className="text-lg md:text-xl text-white/80 mb-4 leading-relaxed tracking-wide font-light max-w-2xl">
+                        Access a curated selection of beautiful and confidential designs, shared exclusively for approved viewers.
+                    </p>
+                    <p className="text-sm md:text-base text-white/50 mb-12 max-w-2xl leading-relaxed">
+                        Viewing access is granted on the condition that the designs remain strictly confidential and are not copied, reproduced, or distributed in any form.
+                    </p>
+                    <AnimatedButton href="/contact" variant="primary">
+                        Request Access
+                    </AnimatedButton>
+                </div>
+
             </Container>
         </section>
     );
