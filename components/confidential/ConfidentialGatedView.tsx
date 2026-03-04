@@ -9,17 +9,63 @@ type AuthState = "request" | "verify" | "verified";
 
 export default function ConfidentialGatedView() {
     const [authState, setAuthState] = useState<AuthState>("request");
+    const [email, setEmail] = useState("");
+    const [phoneCode, setPhoneCode] = useState("+44");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [verifyCode, setVerifyCode] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleRequestAccess = (e: React.FormEvent) => {
+    const fullPhone = `${phoneCode}${phoneNumber.replace(/\s+/g, '')}`;
+
+    const handleRequestAccess = async (e: React.FormEvent) => {
         e.preventDefault();
-        // In a real app, this would trigger the backend WhatsApp Verification API.
-        setAuthState("verify");
+        setIsLoading(true);
+        setErrorMsg("");
+
+        try {
+            const res = await fetch("/api/auth/request-code", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone: fullPhone, email })
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                setAuthState("verify");
+            } else {
+                setErrorMsg(data.error || "Failed to request code.");
+            }
+        } catch (error) {
+            setErrorMsg("Network error.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleVerification = (e: React.FormEvent) => {
+    const handleVerification = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Mock verification success
-        setAuthState("verified");
+        setIsLoading(true);
+        setErrorMsg("");
+
+        try {
+            const res = await fetch("/api/auth/verify-code", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone: fullPhone, code: verifyCode })
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                setAuthState("verified");
+            } else {
+                setErrorMsg(data.error || "Invalid code.");
+            }
+        } catch (error) {
+            setErrorMsg("Network error.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -84,6 +130,8 @@ export default function ConfidentialGatedView() {
                                             <input
                                                 type="email"
                                                 required
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
                                                 className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors"
                                                 placeholder="you@company.com"
                                             />
@@ -95,21 +143,26 @@ export default function ConfidentialGatedView() {
                                                 <input
                                                     type="text"
                                                     required
-                                                    defaultValue="+44"
+                                                    value={phoneCode}
+                                                    onChange={(e) => setPhoneCode(e.target.value)}
                                                     className="w-20 bg-black/50 border border-white/10 rounded-xl px-2 py-3 text-center text-white focus:outline-none focus:border-white/40 transition-colors"
                                                 />
                                                 <input
                                                     type="tel"
                                                     required
+                                                    value={phoneNumber}
+                                                    onChange={(e) => setPhoneNumber(e.target.value)}
                                                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors"
                                                     placeholder="7911 123456"
                                                 />
                                             </div>
                                         </div>
 
+                                        {errorMsg && <p className="text-red-400 text-sm text-center">{errorMsg}</p>}
+
                                         <div className="pt-4 flex flex-col gap-4">
                                             <AnimatedButton type="submit" variant="primary" className="w-full py-4 text-lg">
-                                                Request Access
+                                                {isLoading ? "Sending..." : "Request Access"}
                                             </AnimatedButton>
                                             <div className="text-center">
                                                 <p className="text-[11px] text-white/40 mt-2">A verification code will be sent to WhatsApp.</p>
@@ -137,6 +190,8 @@ export default function ConfidentialGatedView() {
                                                 type="text"
                                                 required
                                                 maxLength={6}
+                                                value={verifyCode}
+                                                onChange={(e) => setVerifyCode(e.target.value)}
                                                 className="w-48 bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-center text-2xl tracking-[0.5em] text-white focus:outline-none focus:border-white/40 transition-colors font-mono"
                                                 placeholder="••••••"
                                                 autoFocus
@@ -148,9 +203,11 @@ export default function ConfidentialGatedView() {
                                             </label>
                                         </div>
 
+                                        {errorMsg && <p className="text-red-400 text-sm text-center">{errorMsg}</p>}
+
                                         <div className="pt-2 flex flex-col gap-4">
                                             <AnimatedButton type="submit" variant="primary" className="w-full py-4 text-lg">
-                                                Verify & Enter
+                                                {isLoading ? "Verifying..." : "Verify & Enter"}
                                             </AnimatedButton>
                                             <button type="button" className="text-xs text-white/40 hover:text-white/80 transition-colors underline-offset-4 hover:underline">
                                                 Resend code
